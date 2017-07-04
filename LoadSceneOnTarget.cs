@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	private TrackableBehaviour mTrackableBehaviour;
-    public string sceneName;
+	public string sceneName;
 	private bool sceneLoaded = false;
 	private AudioSource audioHolderSource;
 
@@ -18,10 +18,10 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	public AudioClip charAudioClip;
 	public bool primarySpeaker;
 	public bool secondarySpeaker;
-	public bool tertiarySpeaker; 
+	public bool tertiarySpeaker;
 	public bool quaternarySpeaker;
 
-	[Header("Subtitle Settings")]
+	[Header ("Subtitle Settings")]
 	private Text SubtitleObject;
 	public string AudioClipSubtitleENG;
 	public string AudioClipSubtitleSECW;
@@ -53,7 +53,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	void Start () {
 
-		SubtitleObject = GameObject.FindObjectOfType<Text>();
+		SubtitleObject = GameObject.FindObjectOfType<Text> ();
 
 		//Speaker Checks:
 
@@ -61,7 +61,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			secondarySpeaker = false;
 			tertiarySpeaker = false;
 			quaternarySpeaker = false;
-			primarySpeakerController = GameObject.Find("PrimarySpeakerController");
+			primarySpeakerController = GameObject.Find ("PrimarySpeakerController");
 			audioHolderSource = GameObject.Find ("PrimarySpeakerController").GetComponent<AudioSource> ();
 		} 
 
@@ -90,13 +90,13 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		if (mTrackableBehaviour) {
 			mTrackableBehaviour.RegisterTrackableEventHandler (this);
 		}
-    }
-     
-    public void OnTrackableStateChanged (
+	}
+
+	public void OnTrackableStateChanged (
 		TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus) {
 		if (newStatus == TrackableBehaviour.Status.DETECTED || newStatus == TrackableBehaviour.Status.TRACKED || newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED) {
 			CharacterPresentChecks ();
-			SALSAChecks();
+			SALSAChecks ();
 			audioHolderSource.clip = charAudioClip;
 			SceneManager.LoadSceneAsync (sceneName, LoadSceneMode.Additive);
 			sceneLoaded = true;
@@ -108,98 +108,98 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 		} else {
 			if (sceneLoaded) {
-				ResetSALSAOnClose();
+				ResetSALSAOnClose ();
 				audioHolderSource.clip = null;
-				SceneManager.UnloadSceneAsync(sceneName);
+				SceneManager.UnloadSceneAsync (sceneName);
 				sceneLoaded = false;
 				SubtitleObject.text = null;
 			}
-       	}
-    }
+		}
+	}
 
-    public void CharacterPresentChecks () {
+	public void CharacterPresentChecks () {
 
-			//Character Present Checks:
+		//Character Present Checks:
 		if (char1Present) {
-			GameObject.Find("CharacterPresent_1").GetComponent<CheckCharPresent>().isCharPresent = true;
-			GameObject.Find("CharacterPresent_1").GetComponent<CheckCharPresent>().characterAnimationTrigger = char1AnimationTrigger;
+			GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char1AnimationTrigger;
 		} else {
-			GameObject.Find("CharacterPresent_1").GetComponent<CheckCharPresent>().isCharPresent = false;
+			GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char2Present) {
-			GameObject.Find("CharacterPresent_2").GetComponent<CheckCharPresent>().isCharPresent = true;
-			GameObject.Find("CharacterPresent_2").GetComponent<CheckCharPresent>().characterAnimationTrigger = char2AnimationTrigger;
+			GameObject.Find ("CharacterPresent_2").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_2").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char2AnimationTrigger;
 		} else {
-			GameObject.Find("CharacterPresent_2").GetComponent<CheckCharPresent>().isCharPresent = false;
+			GameObject.Find ("CharacterPresent_2").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char3Present) {
-			GameObject.Find("CharacterPresent_3").GetComponent<CheckCharPresent>().isCharPresent = true;
-			GameObject.Find("CharacterPresent_3").GetComponent<CheckCharPresent>().characterAnimationTrigger = char3AnimationTrigger;
+			GameObject.Find ("CharacterPresent_3").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_3").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char3AnimationTrigger;
 
 		} else {
-			GameObject.Find("CharacterPresent_3").GetComponent<CheckCharPresent>().isCharPresent = false;
+			GameObject.Find ("CharacterPresent_3").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char4Present) {
-			GameObject.Find("CharacterPresent_4").GetComponent<CheckCharPresent>().isCharPresent = true;
-			GameObject.Find("CharacterPresent_4").GetComponent<CheckCharPresent>().characterAnimationTrigger = char4AnimationTrigger;
+			GameObject.Find ("CharacterPresent_4").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_4").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char4AnimationTrigger;
 
 		} else {
-			GameObject.Find("CharacterPresent_4").GetComponent<CheckCharPresent>().isCharPresent = false;
+			GameObject.Find ("CharacterPresent_4").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char5Present) {
-			GameObject.Find("CharacterPresent_5").GetComponent<CheckCharPresent>().isCharPresent = true;
-			GameObject.Find("CharacterPresent_5").GetComponent<CheckCharPresent>().characterAnimationTrigger = char5AnimationTrigger;
+			GameObject.Find ("CharacterPresent_5").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_5").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char5AnimationTrigger;
 
 		} else {
-			GameObject.Find("CharacterPresent_5").GetComponent<CheckCharPresent>().isCharPresent = false;
+			GameObject.Find ("CharacterPresent_5").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char6Present) {
-			GameObject.Find("CharacterPresent_6").GetComponent<CheckCharPresent>().isCharPresent = true;
-			GameObject.Find("CharacterPresent_6").GetComponent<CheckCharPresent>().characterAnimationTrigger = char6AnimationTrigger;
+			GameObject.Find ("CharacterPresent_6").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_6").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char6AnimationTrigger;
 		} else {
-			GameObject.Find("CharacterPresent_6").GetComponent<CheckCharPresent>().isCharPresent = false;
+			GameObject.Find ("CharacterPresent_6").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char7Present) {
-			GameObject.Find("CharacterPresent_7").GetComponent<CheckCharPresent>().isCharPresent = true;
-			GameObject.Find("CharacterPresent_7").GetComponent<CheckCharPresent>().characterAnimationTrigger = char7AnimationTrigger;
+			GameObject.Find ("CharacterPresent_7").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_7").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char7AnimationTrigger;
 
 		} else {
-			GameObject.Find("CharacterPresent_7").GetComponent<CheckCharPresent>().isCharPresent = false;
+			GameObject.Find ("CharacterPresent_7").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char8Present) {
-			GameObject.Find("CharacterPresent_8").GetComponent<CheckCharPresent>().isCharPresent = true;
-			GameObject.Find("CharacterPresent_8").GetComponent<CheckCharPresent>().characterAnimationTrigger = char8AnimationTrigger; 
+			GameObject.Find ("CharacterPresent_8").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_8").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char8AnimationTrigger; 
 		} else {
-			GameObject.Find("CharacterPresent_8").GetComponent<CheckCharPresent>().isCharPresent = false;
+			GameObject.Find ("CharacterPresent_8").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 	}
 
 
 	//Salsa Char Checks:
 
-	public void SALSAChecks(){
+	public void SALSAChecks () {
 		if (primarySpeaker && isSalsaChar) {
-				GameObject.Find ("PrimarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
-			}
+			GameObject.Find ("PrimarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
+		}
 
 		if (secondarySpeaker && isSalsaChar) {
-				GameObject.Find ("SecondarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
-			} 
+			GameObject.Find ("SecondarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
+		} 
 
 		if (tertiarySpeaker && isSalsaChar) {
-				GameObject.Find ("TertiarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
-			} 
+			GameObject.Find ("TertiarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
+		} 
 
 		if (quaternarySpeaker && isSalsaChar) {
-				GameObject.Find ("QuaternarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
-			} 
+			GameObject.Find ("QuaternarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
+		} 
 	}
 
 	public void ResetSALSAOnClose () {
