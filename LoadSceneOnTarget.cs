@@ -53,6 +53,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	void Start () {
 
+		//Finds Subtitle Object
 		SubtitleObject = GameObject.FindObjectOfType<Text> ();
 
 		//Speaker Checks:
@@ -86,6 +87,8 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			audioHolderSource = GameObject.Find ("QuaternarySpeakerController").GetComponent<AudioSource> ();
 		}
 
+		//Vuforia Target Tracking:
+
 		mTrackableBehaviour = GetComponent<TrackableBehaviour> ();
 		if (mTrackableBehaviour) {
 			mTrackableBehaviour.RegisterTrackableEventHandler (this);
@@ -95,6 +98,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	public void OnTrackableStateChanged (
 		TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus) {
 		if (newStatus == TrackableBehaviour.Status.DETECTED || newStatus == TrackableBehaviour.Status.TRACKED || newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED) {
+			//If a target is found:
 			CharacterPresentChecks ();
 			SALSAChecks ();
 			audioHolderSource.clip = charAudioClip;
@@ -105,9 +109,9 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			} else if (AudioClipSubtitleENG != null) {
 				SubtitleObject.text = AudioClipSubtitleENG;
 			}
-
 		} else {
 			if (sceneLoaded) {
+				//When a target is "lost"
 				ResetSALSAOnClose ();
 				audioHolderSource.clip = null;
 				SceneManager.UnloadSceneAsync (sceneName);

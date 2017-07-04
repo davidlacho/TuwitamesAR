@@ -120,20 +120,20 @@ public class SceneCharacterManager : MonoBehaviour {
 			fetchedPrimarySpeakerAudioSource = GameObject.Find ("PrimarySpeakerController").GetComponent<AudioSource> ();
 			primarySpeakerIsSalsaChar = GameObject.Find ("PrimarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
 		}
+
 		if (secondarySpeaker != null) {
 			fetchedSecondarySpeakerAudioSource = GameObject.Find ("SecondarySpeakerController").GetComponent<AudioSource> ();
 			secondarySpeakerIsSalsaChar = GameObject.Find ("SecondarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
-
 		}
+
 		if (tertiarySpeaker != null) {
 			fetchedTertiarySpeakerAudioSource = GameObject.Find ("TertiarySpeakerController").GetComponent<AudioSource> ();
 			tertiarySpeakerIsSalsaChar = GameObject.Find ("TertiarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
-
 		}
+
 		if (quaternarySpeaker != null) {
 			fetchedQuaternarySpeakerAudioSource = GameObject.Find ("QuaternarySpeakerController").GetComponent<AudioSource> ();
 			quaternarySpeakerIsSalsaChar = GameObject.Find ("QuaternarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
-
 		}
 
 		if (fetchedPrimarySpeakerAudioSource != null && primarySpeakerIsSalsaChar) {
@@ -144,7 +144,6 @@ public class SceneCharacterManager : MonoBehaviour {
 			primarySpeakerAudioSource = primarySpeaker.GetComponent<AudioSource> ();
 			primarySpeakerAudioSource.clip = fetchedPrimarySpeakerAudioSource.clip;
 			primarySpeakerAudioSource.Play ();
-
 		}
 
 		if (fetchedSecondarySpeakerAudioSource != null && secondarySpeakerIsSalsaChar) {
@@ -163,8 +162,9 @@ public class SceneCharacterManager : MonoBehaviour {
 			tertiarySpeakerSALSA3D.Play ();
 		} else if (fetchedTertiarySpeakerAudioSource != null) {
 			tertiarySpeaker.GetComponent<AudioSource> ().clip = fetchedTertiarySpeakerAudioSource.clip;
-			tertiarySpeakerAudioSource = tertiarySpeaker.GetComponent<AudioSource> (); 			tertiarySpeakerAudioSource.clip = fetchedTertiarySpeakerAudioSource.clip; 			tertiarySpeakerAudioSource.Play (); 
-
+			tertiarySpeakerAudioSource = tertiarySpeaker.GetComponent<AudioSource> ();
+			tertiarySpeakerAudioSource.clip = fetchedTertiarySpeakerAudioSource.clip;
+			tertiarySpeakerAudioSource.Play ();
 		}
 
 		if (fetchedQuaternarySpeakerAudioSource != null && quaternarySpeakerIsSalsaChar) {
@@ -173,8 +173,9 @@ public class SceneCharacterManager : MonoBehaviour {
 			quaternarySpeakerSALSA3D.Play ();
 		} else if (fetchedQuaternarySpeakerAudioSource != null) {
 			quaternarySpeaker.GetComponent<AudioSource> ().clip = fetchedQuaternarySpeakerAudioSource.clip;
-			quaternarySpeakerAudioSource = quaternarySpeaker.GetComponent<AudioSource> (); 			quaternarySpeakerAudioSource.clip = fetchedQuaternarySpeakerAudioSource.clip; 			quaternarySpeakerAudioSource.Play (); 
-
+			quaternarySpeakerAudioSource = quaternarySpeaker.GetComponent<AudioSource> ();
+			quaternarySpeakerAudioSource.clip = fetchedQuaternarySpeakerAudioSource.clip;
+			quaternarySpeakerAudioSource.Play ();
 		}
 
 	}
