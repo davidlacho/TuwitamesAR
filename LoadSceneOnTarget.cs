@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
 using UnityEngine.SceneManagement;
-//using UnityEditor;
+using UnityEngine.UI;
+
 
 public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
-
-	//[CustomEditor(typeof(LoadSceneOnTarget))]
 
 	private TrackableBehaviour mTrackableBehaviour;
     public string sceneName;
 	private bool sceneLoaded = false;
 	private AudioSource audioHolderSource;
-
 
 	[Header ("Audio & Speaker Settings")]
 	public bool isSalsaChar;
@@ -22,6 +20,12 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	public bool secondarySpeaker;
 	public bool tertiarySpeaker; 
 	public bool quaternarySpeaker;
+
+	[Header("Subtitle Settings")]
+	private Text SubtitleObject;
+	public string AudioClipSubtitleENG;
+	public string AudioClipSubtitleSECW;
+	public bool SECW_Subtitles;
 
 	[Header ("Character Controllers")]
 	public bool char1Present;
@@ -49,6 +53,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	void Start () {
 
+		SubtitleObject = GameObject.FindObjectOfType<Text>();
 
 		//Speaker Checks:
 
@@ -58,9 +63,6 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			quaternarySpeaker = false;
 			primarySpeakerController = GameObject.Find("PrimarySpeakerController");
 			audioHolderSource = GameObject.Find ("PrimarySpeakerController").GetComponent<AudioSource> ();
-			if (isSalsaChar) {
-				GameObject.Find ("PrimarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
-			}
 		} 
 
 		if (secondarySpeaker) {
@@ -68,9 +70,6 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			tertiarySpeaker = false;
 			quaternarySpeaker = false;
 			audioHolderSource = GameObject.Find ("SecondarySpeakerController").GetComponent<AudioSource> ();
-			if (isSalsaChar) {
-				GameObject.Find ("SecondarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
-			} 
 		}
 
 		if (tertiarySpeaker) {
@@ -78,9 +77,6 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			tertiarySpeaker = false;
 			quaternarySpeaker = false;
 			audioHolderSource = GameObject.Find ("TertiarySpeakerController").GetComponent<AudioSource> ();
-			if (isSalsaChar) {
-				GameObject.Find ("TertiarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
-			} 
 		}
 
 		if (quaternarySpeaker) {
@@ -88,9 +84,6 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			tertiarySpeaker = false;
 			secondarySpeaker = false;
 			audioHolderSource = GameObject.Find ("QuaternarySpeakerController").GetComponent<AudioSource> ();
-			if (isSalsaChar) {
-				GameObject.Find ("QuaternarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
-			} 
 		}
 
 		mTrackableBehaviour = GetComponent<TrackableBehaviour> ();
@@ -101,18 +94,27 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
      
     public void OnTrackableStateChanged (
 		TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus) {
-			if (newStatus == TrackableBehaviour.Status.DETECTED || newStatus == TrackableBehaviour.Status.TRACKED || newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED) {
-				CharacterPresentChecks();
-				audioHolderSource.clip = charAudioClip;
-				SceneManager.LoadSceneAsync( sceneName, LoadSceneMode.Additive );
-				sceneLoaded = true;
-			} else {
-				if (sceneLoaded) {
-					audioHolderSource.clip = null;
-					SceneManager.UnloadSceneAsync(sceneName);
-					sceneLoaded = false;
-				}
-        	}
+		if (newStatus == TrackableBehaviour.Status.DETECTED || newStatus == TrackableBehaviour.Status.TRACKED || newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED) {
+			CharacterPresentChecks ();
+			SALSAChecks();
+			audioHolderSource.clip = charAudioClip;
+			SceneManager.LoadSceneAsync (sceneName, LoadSceneMode.Additive);
+			sceneLoaded = true;
+			if (SECW_Subtitles && AudioClipSubtitleENG != null) {
+				SubtitleObject.text = AudioClipSubtitleSECW;
+			} else if (AudioClipSubtitleENG != null) {
+				SubtitleObject.text = AudioClipSubtitleENG;
+			}
+
+		} else {
+			if (sceneLoaded) {
+				ResetSALSAOnClose();
+				audioHolderSource.clip = null;
+				SceneManager.UnloadSceneAsync(sceneName);
+				sceneLoaded = false;
+				SubtitleObject.text = null;
+			}
+       	}
     }
 
     public void CharacterPresentChecks () {
@@ -177,5 +179,33 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		} else {
 			GameObject.Find("CharacterPresent_8").GetComponent<CheckCharPresent>().isCharPresent = false;
 		}
+	}
+
+
+	//Salsa Char Checks:
+
+	public void SALSAChecks(){
+		if (primarySpeaker && isSalsaChar) {
+				GameObject.Find ("PrimarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
+			}
+
+		if (secondarySpeaker && isSalsaChar) {
+				GameObject.Find ("SecondarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
+			} 
+
+		if (tertiarySpeaker && isSalsaChar) {
+				GameObject.Find ("TertiarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
+			} 
+
+		if (quaternarySpeaker && isSalsaChar) {
+				GameObject.Find ("QuaternarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
+			} 
+	}
+
+	public void ResetSALSAOnClose () {
+		GameObject.Find ("PrimarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
+		GameObject.Find ("SecondarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
+		GameObject.Find ("TertiarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
+		GameObject.Find ("QuaternarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
 	}
 }

@@ -122,17 +122,17 @@ public class SceneCharacterManager : MonoBehaviour {
 		}
 		if (secondarySpeaker != null) {
 			fetchedSecondarySpeakerAudioSource = GameObject.Find ("SecondarySpeakerController").GetComponent<AudioSource> ();
-			secondarySpeakerIsSalsaChar = GameObject.Find("PrimarySpeakerController").GetComponent<SalsaCheck>().isSalsaChar;
+			secondarySpeakerIsSalsaChar = GameObject.Find("SecondarySpeakerController").GetComponent<SalsaCheck>().isSalsaChar;
 
 		}
 		if (tertiarySpeaker != null) {
 			fetchedTertiarySpeakerAudioSource = GameObject.Find ("TertiarySpeakerController").GetComponent<AudioSource> ();
-			tertiarySpeakerIsSalsaChar = GameObject.Find("PrimarySpeakerController").GetComponent<SalsaCheck>().isSalsaChar;
+			tertiarySpeakerIsSalsaChar = GameObject.Find("TertiarySpeakerController").GetComponent<SalsaCheck>().isSalsaChar;
 
 		}
 		if (quaternarySpeaker != null) {
 			fetchedQuaternarySpeakerAudioSource = GameObject.Find ("QuaternarySpeakerController").GetComponent<AudioSource> ();
-			quaternarySpeakerIsSalsaChar = GameObject.Find("PrimarySpeakerController").GetComponent<SalsaCheck>().isSalsaChar;
+			quaternarySpeakerIsSalsaChar = GameObject.Find("QuaternarySpeakerController").GetComponent<SalsaCheck>().isSalsaChar;
 
 		}
 
