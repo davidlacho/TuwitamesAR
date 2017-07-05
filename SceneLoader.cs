@@ -20,7 +20,6 @@ public class SceneLoader : MonoBehaviour {
 	[SerializeField] 
 	private Slider progressSlider;
 	private float progressBarTotal = 1f;
-	//1f because mainscene isn't in for loop
 	private float progressBarLoaded = 0f;
 
 	void Start () {
@@ -47,10 +46,9 @@ public class SceneLoader : MonoBehaviour {
 			progressBarTotal = progressBarTotal + 2; 
 		}
 
-		yield return new WaitForSeconds (1);
+		yield return new WaitForSeconds (2);
 
 		//Load Main Scene:
-
 		AsyncOperation loadMainScene = SceneManager.LoadSceneAsync (sceneToLoadTo, LoadSceneMode.Additive);
 		while (!loadMainScene.isDone) {
 			yield return null;
@@ -58,7 +56,6 @@ public class SceneLoader : MonoBehaviour {
 		progressBarLoaded++;
 
 		//Load Each Scene:
-
 		foreach (string scene in sceneNames) {
 			AsyncOperation sceneLoader = SceneManager.LoadSceneAsync (scene, LoadSceneMode.Additive);
 			while (!sceneLoader.isDone) {
@@ -82,8 +79,5 @@ public class SceneLoader : MonoBehaviour {
 		while (!async.isDone) {
 			yield return null;
 		}
-	        
-
 	}
-
 }
