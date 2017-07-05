@@ -60,6 +60,7 @@ public class SceneCharacterManager : MonoBehaviour {
 		if (character2 != null) {
 			if (GameObject.Find ("CharacterPresent_2").GetComponent<CheckCharPresent> ().isCharPresent) {
 				character2.SetActive (true);
+				character2.GetComponent<Animator> ().SetTrigger (GameObject.Find ("CharacterPresent_2").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 			} else {
 				character2.SetActive (false);
 			}
@@ -68,6 +69,7 @@ public class SceneCharacterManager : MonoBehaviour {
 		if (character3 != null) {
 			if (GameObject.Find ("CharacterPresent_3").GetComponent<CheckCharPresent> ().isCharPresent) {
 				character3.SetActive (true);
+				character3.GetComponent<Animator> ().SetTrigger (GameObject.Find ("CharacterPresent_3").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 			} else {
 				character3.SetActive (false);
 			}
@@ -76,38 +78,43 @@ public class SceneCharacterManager : MonoBehaviour {
 		if (character4 != null) {
 			if (GameObject.Find ("CharacterPresent_4").GetComponent<CheckCharPresent> ().isCharPresent) {
 				character4.SetActive (true);
+				character4.GetComponent<Animator> ().SetTrigger (GameObject.Find ("CharacterPresent_4").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 			} else {
 				character4.SetActive (false);
 			}
 		}
 
 		if (character5 != null) {
-			if (GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().isCharPresent) {
+			if (GameObject.Find ("CharacterPresent_5").GetComponent<CheckCharPresent> ().isCharPresent) {
 				character5.SetActive (true);
+				character5.GetComponent<Animator> ().SetTrigger (GameObject.Find ("CharacterPresent_5").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 			} else {
 				character5.SetActive (false);
 			}
 		}
 
 		if (character6 != null) {
-			if (GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().isCharPresent) {
+			if (GameObject.Find ("CharacterPresent_6").GetComponent<CheckCharPresent> ().isCharPresent) {
 				character6.SetActive (true);
+				character6.GetComponent<Animator> ().SetTrigger (GameObject.Find ("CharacterPresent_6").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 			} else {
 				character6.SetActive (false);
 			}
 		}
 
 		if (character7 != null) {
-			if (GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().isCharPresent) {
+			if (GameObject.Find ("CharacterPresent_7").GetComponent<CheckCharPresent> ().isCharPresent) {
 				character7.SetActive (true);
+				character7.GetComponent<Animator> ().SetTrigger (GameObject.Find ("CharacterPresent_7").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 			} else {
 				character7.SetActive (false);
 			}
 		}
 
 		if (character8 != null) {
-			if (GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().isCharPresent) {
+			if (GameObject.Find ("CharacterPresent_8").GetComponent<CheckCharPresent> ().isCharPresent) {
 				character8.SetActive (true);
+				character8.GetComponent<Animator> ().SetTrigger (GameObject.Find ("CharacterPresent_8").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 			} else {
 				character8.SetActive (false);
 			}
