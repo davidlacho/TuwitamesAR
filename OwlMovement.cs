@@ -13,16 +13,23 @@ public class OwlMovement : MonoBehaviour {
 	// 4. Pick up Baby Game Object
 	// 5. Fly away
 
-	public bool isFlying = false;
 
+	//For Flying Motion:
+	public bool isFlying = false;
+	private bool reachedDestination = false;
+
+
+	//For Calculating Distances Between Waypoints
 	public Transform[] waypoint;
 	public float timeToNextWaypoint;
 	private Transform currentWaypointGoal;
 	private Vector3 currentPosition;
 	[SerializeField] 
 	private float distanceFromWaypointBeforeSwitch; // Choose the distance from the waypoint that the gameobject will change to the next waypioint
-	public bool reachedDestination = false;
+
+	//For Switching To Next Waypoints:
 	private int waypointCounter = 0;
+	public float speed;
 
 	void Update () {
 		currentPosition = transform.position;
@@ -48,7 +55,8 @@ public class OwlMovement : MonoBehaviour {
 	}
 
 	private void Flying (Vector3 waypoint) {
-		transform.position = Vector3.Lerp (currentPosition, waypoint, Time.deltaTime); 
+		transform.LookAt(waypoint); 
+		transform.position = Vector3.MoveTowards (currentPosition, waypoint, (Time.deltaTime * speed)); 
 	}
 
 	private float calculateDistanceToTarget (Transform destination) {
