@@ -5,63 +5,81 @@ using UnityEngine.AI;
 
 public class OwlMovement : MonoBehaviour {
 
-	// Move owl along a series of waypoints with different animations
-
-	// 1. Look around
-	// 2. Pick up to fly off
-	// 3. Fly to waypoints, rotating accordingly.
-	// 4. Pick up Baby Game Object
-	// 5. Fly away
-
-
 	//For Flying Motion:
 	public bool isFlying = false;
 	private bool reachedDestination = false;
 
-
 	//For Calculating Distances Between Waypoints
 	public Transform[] waypoint;
-	public float timeToNextWaypoint;
 	private Transform currentWaypointGoal;
 	private Vector3 currentPosition;
-	[SerializeField] 
-	private float distanceFromWaypointBeforeSwitch; // Choose the distance from the waypoint that the gameobject will change to the next waypioint
 
 	//For Switching To Next Waypoints:
 	private int waypointCounter = 0;
+
+	//for making baby disappear
+	public int waypointCounterWhenBabyDisappears;
+	public GameObject babyGameObject;
+
+	//For Controlling Speed within Script
 	public float speed;
+	private float trueSpeed;
+
+	//For Controlling Liftoff animation
+	private bool isLiftOff = false;
+	public Animator animator;
+
 
 	void Update () {
+		trueSpeed = speed * Time.deltaTime;
 		currentPosition = transform.position;
-		Debug.Log (reachedDestination); 
-		currentWaypointGoal = waypoint[waypointCounter]; 
+		currentWaypointGoal = waypoint [waypointCounter]; 
 
 
 		if (isFlying) {
 			Vector3 destinationToFlyTo = currentWaypointGoal.position; 
 			float distanceToTarget = calculateDistanceToTarget (currentWaypointGoal);
-			Flying (destinationToFlyTo); 
-			if (distanceToTarget > distanceFromWaypointBeforeSwitch) {
-				reachedDestination = false;
-			} else {
-				reachedDestination = true; 
+
+			if (distanceToTarget > 0 && !isLiftOff) {
+				animator.SetTrigger ("startFlying"); 
+				isLiftOff = true; 
+			}
+
+			if (isLiftOff) {
+				Flying (destinationToFlyTo, currentWaypointGoal); 
+				if (distanceToTarget > 0.5f) {
+					reachedDestination = false;
+				} else {
+					reachedDestination = true; 
+				}
 			}
 		}
 
+		if (waypointCounter == waypointCounterWhenBabyDisappears) {
+			babyGameObject.SetActive (false); 
+
+		}
+
 		if (reachedDestination && waypointCounter < (waypoint.Length - 1)) {
-		 	waypointCounter++;
+			waypointCounter++;
 			reachedDestination = false; 
+		} 
+
+		if (reachedDestination && waypointCounter == (waypoint.Length - 1)) {
+			//What to do when reached final waypoint
 		}
 	}
 
-	private void Flying (Vector3 waypoint) {
-		transform.LookAt(waypoint); 
-		transform.position = Vector3.MoveTowards (currentPosition, waypoint, (Time.deltaTime * speed)); 
+	private void Flying (Vector3 waypoint, Transform currentWaypointGoal) {
+
+		Vector3 targetDir = currentWaypointGoal.position - transform.position;
+		Vector3 newDir = Vector3.RotateTowards (transform.forward, targetDir, trueSpeed, 0);
+		transform.rotation = Quaternion.LookRotation (newDir);
+		transform.position = Vector3.MoveTowards (currentPosition, waypoint, (trueSpeed)); 
 	}
 
 	private float calculateDistanceToTarget (Transform destination) {
 		float distanceToTarget = Vector3.Distance (currentPosition, destination.position); 
-		Debug.Log(distanceToTarget); 
 		return distanceToTarget;
 	}
 
