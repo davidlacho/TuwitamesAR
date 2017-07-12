@@ -12,6 +12,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	public string sceneName;
 	private bool sceneLoaded = false;
 	private AudioSource audioHolderSource;
+	private Text LoadingText;
 
 	[Header ("Audio & Speaker Settings")]
 	public bool isSalsaChar;
@@ -50,11 +51,17 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	private GameObject tertiarySpeakerController;
 	private GameObject quaternarySpeakerController;
 
+	void Update () {
+		LoadingText.text = null;
+	}
 
 	void Start () {
 
+		//For Loading Image
+		LoadingText = GameObject.Find ("loadingText").GetComponent<Text> ();
+		LoadingText.text = null;
 		//Finds Subtitle Object
-		SubtitleObject = GameObject.FindObjectOfType<Text> ();
+		SubtitleObject = GameObject.Find ("subtitleText").GetComponent<Text> ();
 
 		//Speaker Checks:
 
@@ -99,25 +106,42 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus) {
 		if (newStatus == TrackableBehaviour.Status.DETECTED || newStatus == TrackableBehaviour.Status.TRACKED || newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED) {
 			//If a target is found:
+			StartCoroutine (LoadingLevel ()); 
 			CharacterPresentChecks ();
 			SALSAChecks ();
 			audioHolderSource.clip = charAudioClip;
-			SceneManager.LoadSceneAsync (sceneName, LoadSceneMode.Additive);
 			sceneLoaded = true;
 			if (SECW_Subtitles && AudioClipSubtitleENG != null) {
 				SubtitleObject.text = AudioClipSubtitleSECW;
 			} else if (AudioClipSubtitleENG != null) {
 				SubtitleObject.text = AudioClipSubtitleENG;
 			}
+
 		} else {
 			if (sceneLoaded) {
 				//When a target is "lost"
 				ResetSALSAOnClose ();
 				audioHolderSource.clip = null;
-				SceneManager.UnloadSceneAsync (sceneName);
 				sceneLoaded = false;
 				SubtitleObject.text = null;
+				StartCoroutine (KillScene ());
 			}
+		}
+	}
+
+	public IEnumerator LoadingLevel () {
+		AsyncOperation loadingScene = SceneManager.LoadSceneAsync (sceneName, LoadSceneMode.Additive);
+		while (!loadingScene.isDone) {
+			LoadingText.text = "Loading...";
+			yield return null;
+		}
+
+	}
+
+	public IEnumerator KillScene () {
+		AsyncOperation killScene = SceneManager.UnloadSceneAsync (sceneName);
+		while (!killScene.isDone) {
+			yield return null;
 		}
 	}
 
