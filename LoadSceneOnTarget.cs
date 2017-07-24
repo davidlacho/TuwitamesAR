@@ -45,6 +45,14 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	public string char7AnimationTrigger = null;
 	public bool char8Present;
 	public string char8AnimationTrigger = null;
+	public bool char9Present;
+	public string char9AnimationTrigger = null;
+	public bool char10Present;
+	public string char10AnimationTrigger = null;
+	public bool char11Present;
+	public string char11AnimationTrigger = null;
+	public bool char12Present;
+	public string char12AnimationTrigger = null;
 
 	private GameObject primarySpeakerController;
 	private GameObject secondarySpeakerController;
@@ -207,6 +215,11 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		} else {
 			GameObject.Find ("CharacterPresent_8").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
+
+		if (char9Present) { 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent = true; 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char9AnimationTrigger;  		}  else { 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent = false; 		} 
+		if (char10Present) { 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent = true; 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char10AnimationTrigger;  		}  else { 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent = false; 		} 
+		if (char11Present) { 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent = true; 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char11AnimationTrigger;  		}  else { 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent = false; 		} 
+		if (char12Present) { 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent = true; 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char12AnimationTrigger;  		}  else { 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent = false; 		}
 	}
 
 

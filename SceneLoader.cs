@@ -68,7 +68,7 @@ public class SceneLoader : MonoBehaviour {
 		while (!scenesFinishedLoaded) {
 			int randomNumber = Random.Range (0, (sillyTextMessages.Length));
 			sillyText.text = sillyTextMessages [randomNumber];
-			yield return new WaitForSeconds (2);
+			yield return new WaitForSeconds (1);
 
 		}
 	}
