@@ -14,6 +14,10 @@ public class SceneCharacterManager : MonoBehaviour {
 	public GameObject character6;
 	public GameObject character7;
 	public GameObject character8;
+	public GameObject character9;
+	public GameObject character10;
+	public GameObject character11;
+	public GameObject character12;
 
 	[Header ("Speakers")]
 	public GameObject primarySpeaker;
@@ -144,6 +148,10 @@ public class SceneCharacterManager : MonoBehaviour {
 			}
 		}
 
+		if (character9 != null) { 			if (GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent) { 				character9.SetActive (true); 				Animator charAnimator9 = character9.GetComponent<Animator> (); 				if (charAnimator9 != null) { 					charAnimator9.SetTrigger (GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().characterAnimationTrigger); 				} 			}  else { 				character9.SetActive (false); 			} 		} 
+		if (character10 != null) { 			if (GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent) { 				character10.SetActive (true); 				Animator charAnimator10 = character10.GetComponent<Animator> (); 				if (charAnimator10 != null) { 					charAnimator10.SetTrigger (GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().characterAnimationTrigger); 				} 			}  else { 				character10.SetActive (false); 			} 		} 
+		if (character11 != null) { 			if (GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent) { 				character11.SetActive (true); 				Animator charAnimator11 = character11.GetComponent<Animator> (); 				if (charAnimator11 != null) { 					charAnimator11.SetTrigger (GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().characterAnimationTrigger); 				} 			}  else { 				character11.SetActive (false); 			} 		} 
+		if (character12 != null) { 			if (GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent) { 				character12.SetActive (true); 				Animator charAnimator12 = character12.GetComponent<Animator> (); 				if (charAnimator12 != null) { 					charAnimator12.SetTrigger (GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().characterAnimationTrigger); 				} 			}  else { 				character12.SetActive (false); 			} 		} 
 		//Speaker Checks and Assigning Audio: 
 
 		if (primarySpeaker != null) {
