@@ -66,7 +66,7 @@ public class OwlMovement : MonoBehaviour {
 		} 
 
 		if (reachedDestination && waypointCounter == (waypoint.Length - 1)) {
-			//What to do when reached final waypoint
+			Destroy(gameObject);
 		}
 	}
 

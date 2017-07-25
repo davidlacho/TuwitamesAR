@@ -61,6 +61,11 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	void Update () {
 		LoadingText.text = null;
+		if (SECW_Subtitles && AudioClipSubtitleENG != null && sceneLoaded) {
+				SubtitleObject.text = AudioClipSubtitleSECW;
+			} else if (AudioClipSubtitleENG != null && sceneLoaded) {
+				SubtitleObject.text = AudioClipSubtitleENG;
+			}
 	}
 
 	void Start () {
@@ -119,11 +124,8 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			SALSAChecks ();
 			audioHolderSource.clip = charAudioClip;
 			sceneLoaded = true;
-			if (SECW_Subtitles && AudioClipSubtitleENG != null) {
-				SubtitleObject.text = AudioClipSubtitleSECW;
-			} else if (AudioClipSubtitleENG != null) {
-				SubtitleObject.text = AudioClipSubtitleENG;
-			}
+
+
 
 		} else {
 			if (sceneLoaded) {
@@ -216,10 +218,33 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			GameObject.Find ("CharacterPresent_8").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
-		if (char9Present) { 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent = true; 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char9AnimationTrigger;  		}  else { 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent = false; 		} 
-		if (char10Present) { 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent = true; 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char10AnimationTrigger;  		}  else { 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent = false; 		} 
-		if (char11Present) { 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent = true; 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char11AnimationTrigger;  		}  else { 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent = false; 		} 
-		if (char12Present) { 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent = true; 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char12AnimationTrigger;  		}  else { 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent = false; 		}
+		if (char9Present) {
+			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char9AnimationTrigger; 
+		}  else {
+			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent = false;
+		}
+
+		if (char10Present) {
+			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char10AnimationTrigger; 
+		}  else {
+			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent = false;
+		}
+
+		if (char11Present) {
+			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char11AnimationTrigger; 
+		}  else {
+			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent = false;
+		}
+
+		if (char12Present) {
+			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent = true;
+			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char12AnimationTrigger; 
+		}  else {
+			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent = false;
+		}
 	}
 
 
