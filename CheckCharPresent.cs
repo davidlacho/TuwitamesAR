@@ -8,3 +8,4 @@ public class CheckCharPresent : MonoBehaviour {
 	public string characterAnimationTrigger;
 
 }
+
