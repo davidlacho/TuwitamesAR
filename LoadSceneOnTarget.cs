@@ -10,9 +10,12 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	private TrackableBehaviour mTrackableBehaviour;
 	public string sceneName;
-	private bool sceneLoaded = false;
+	public bool sceneLoaded = false;
+	public string currentTargetName = null;
 	private AudioSource audioHolderSource;
 	private Text LoadingText;
+
+
 
 	[Header ("Audio & Speaker Settings")]
 	public bool isSalsaChar;
@@ -59,17 +62,23 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	private GameObject tertiarySpeakerController;
 	private GameObject quaternarySpeakerController;
 
+
+
 	void Update () {
 		LoadingText.text = null;
 		if (SECW_Subtitles && AudioClipSubtitleENG != null && sceneLoaded) {
-				SubtitleObject.text = AudioClipSubtitleSECW;
-			} else if (AudioClipSubtitleENG != null && sceneLoaded) {
-				SubtitleObject.text = AudioClipSubtitleENG;
-			}
+			SubtitleObject.text = AudioClipSubtitleSECW;
+		} else if (AudioClipSubtitleENG != null && sceneLoaded) {
+			SubtitleObject.text = AudioClipSubtitleENG;
+		}
 	}
 
-	void Start () {
 
+
+	void Start () {
+		
+	
+		
 		//For Loading Image
 		LoadingText = GameObject.Find ("loadingText").GetComponent<Text> ();
 		LoadingText.text = null;
@@ -124,17 +133,19 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			SALSAChecks ();
 			audioHolderSource.clip = charAudioClip;
 			sceneLoaded = true;
-
+			currentTargetName = gameObject.transform.name;
 
 
 		} else {
+			//When a target is "lost"
 			if (sceneLoaded) {
-				//When a target is "lost"
+				currentTargetName = null;
 				ResetSALSAOnClose ();
 				audioHolderSource.clip = null;
 				sceneLoaded = false;
 				SubtitleObject.text = null;
 				StartCoroutine (KillScene ());
+
 			}
 		}
 	}
