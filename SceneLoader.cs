@@ -20,6 +20,8 @@ public class SceneLoader : MonoBehaviour {
 	private Text sillyText;
 	[SerializeField]
 	private string[] sillyTextMessages;
+	[SerializeField]
+	private float changeSillyTextTiming;
 
 
 	//For Loading Bar:
@@ -68,7 +70,7 @@ public class SceneLoader : MonoBehaviour {
 		while (!scenesFinishedLoaded) {
 			int randomNumber = Random.Range (0, (sillyTextMessages.Length));
 			sillyText.text = sillyTextMessages [randomNumber];
-			yield return new WaitForSeconds (1);
+			yield return new WaitForSeconds (changeSillyTextTiming);
 
 		}
 	}
