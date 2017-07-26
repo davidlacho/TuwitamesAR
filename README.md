@@ -17,7 +17,7 @@ Vuforia AR plugin.
 The structure of the app is made so that scenes are loaded "additive" whenever a target is scanned using a mobile camera.
 Once scanned, information held in the LoadSceneOnTarget script is passed to a scene manager, which handles passing dialogue settings and
 character present settings to the scene. Based on the parameters set in this script, a scene can have different characters, different dialogue,
-different actions, and much more. It is a very powerful script, as it handles the majority of the game's interaction.
+different actions, and much more. It is a very powerful script, as it handles the majority of the app's interaction.
 
 If you have any questions or would like to discuss how this is being built, please contact me at:
 david.lacho [at] gmail [dot] com.
