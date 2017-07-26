@@ -14,6 +14,11 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	public string currentTargetName = null;
 	private AudioSource audioHolderSource;
 	private Text LoadingText;
+	public GameObject targetManager;
+
+	//Target Manager:
+	private bool anotherTargetAlreadyLoaded;
+	private string sceneAlreadyLoadedInTargetManager;
 
 
 
@@ -65,6 +70,10 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 
 	void Update () {
+
+		anotherTargetAlreadyLoaded = targetManager.GetComponent<TargetManager> ().targetAlreadyLoaded;
+		sceneAlreadyLoadedInTargetManager = targetManager.GetComponent<TargetManager> ().sceneLoaded;
+
 		LoadingText.text = null;
 		if (SECW_Subtitles && AudioClipSubtitleENG != null && sceneLoaded) {
 			SubtitleObject.text = AudioClipSubtitleSECW;
@@ -72,12 +81,15 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			SubtitleObject.text = AudioClipSubtitleENG;
 		}
 
-		Debug.Log("Scene Loaded of Gameobject: " + gameObject.name + " : " + sceneLoaded);
+		Debug.Log ("Scene Loaded of Gameobject: " + gameObject.name + " : " + sceneLoaded);
 	}
 
 
 
 	void Start () {
+		targetManager = GameObject.Find ("TargetManager");
+
+
 		sceneLoaded = false;
 	
 		
@@ -128,27 +140,41 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	public void OnTrackableStateChanged (
 		TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus) {
-		if (newStatus == TrackableBehaviour.Status.DETECTED || newStatus == TrackableBehaviour.Status.TRACKED || newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED) {
+		if (!anotherTargetAlreadyLoaded && newStatus == TrackableBehaviour.Status.DETECTED || newStatus == TrackableBehaviour.Status.TRACKED || newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED) {
 			//If a target is found:
+
+			if (anotherTargetAlreadyLoaded && sceneAlreadyLoadedInTargetManager != null) {
+				StartCoroutine (UnloadAlreadyLoadedScene ());
+			}
+
 			StartCoroutine (LoadingLevel ()); 
 			CharacterPresentChecks ();
 			SALSAChecks ();
 			audioHolderSource.clip = charAudioClip;
 			sceneLoaded = true;
+			targetManager.GetComponent<TargetManager> ().targetAlreadyLoaded = true;
+			targetManager.GetComponent<TargetManager> ().sceneLoaded = sceneName;
 			currentTargetName = gameObject.transform.name;
-
-
 		} else {
 			//When a target is "lost"
-			if (sceneLoaded) {
-				Debug.Log("****   ****  When target lost script loading......");
+			if (sceneLoaded) { 
 				currentTargetName = null;
 				ResetSALSAOnClose ();
 				audioHolderSource.clip = null;
 				sceneLoaded = false;
 				SubtitleObject.text = null;
-				StartCoroutine (KillScene ());
+				targetManager.GetComponent<TargetManager> ().targetAlreadyLoaded = false;
+				StartCoroutine (LoadToBlankScene ());
 			}
+		}
+
+	}
+
+	public IEnumerator UnloadAlreadyLoadedScene () {
+		AsyncOperation unloadAlreadyLoadedScene = SceneManager.UnloadSceneAsync (sceneAlreadyLoadedInTargetManager);
+		while (!unloadAlreadyLoadedScene.isDone) {
+			LoadingText.text = "Loading...";
+			yield return null;
 		}
 	}
 
@@ -161,10 +187,10 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	}
 
-	public IEnumerator KillScene () {
+	public IEnumerator LoadToBlankScene () {
 		//AsyncOperation killScene = SceneManager.UnloadSceneAsync (sceneName);
-		AsyncOperation killScene = SceneManager.LoadSceneAsync("LoadToScene", LoadSceneMode.Single);
-		while (!killScene.isDone) {
+		AsyncOperation loadToBlankScene = SceneManager.LoadSceneAsync ("LoadToScene", LoadSceneMode.Single);
+		while (!loadToBlankScene.isDone) {
 			yield return null;
 		}
 	}
@@ -235,28 +261,28 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		if (char9Present) {
 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent = true;
 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char9AnimationTrigger; 
-		}  else {
+		} else {
 			GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char10Present) {
 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent = true;
 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char10AnimationTrigger; 
-		}  else {
+		} else {
 			GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char11Present) {
 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent = true;
 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char11AnimationTrigger; 
-		}  else {
+		} else {
 			GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 
 		if (char12Present) {
 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent = true;
 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().characterAnimationTrigger = char12AnimationTrigger; 
-		}  else {
+		} else {
 			GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent = false;
 		}
 	}
