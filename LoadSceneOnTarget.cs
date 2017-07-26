@@ -10,7 +10,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	private TrackableBehaviour mTrackableBehaviour;
 	public string sceneName;
-	public bool sceneLoaded = false;
+	public bool sceneLoaded;
 	public string currentTargetName = null;
 	private AudioSource audioHolderSource;
 	private Text LoadingText;
@@ -71,12 +71,14 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		} else if (AudioClipSubtitleENG != null && sceneLoaded) {
 			SubtitleObject.text = AudioClipSubtitleENG;
 		}
+
+		Debug.Log("Scene Loaded of Gameobject: " + gameObject.name + " : " + sceneLoaded);
 	}
 
 
 
 	void Start () {
-		
+		sceneLoaded = false;
 	
 		
 		//For Loading Image
@@ -139,13 +141,13 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		} else {
 			//When a target is "lost"
 			if (sceneLoaded) {
+				Debug.Log("****   ****  When target lost script loading......");
 				currentTargetName = null;
 				ResetSALSAOnClose ();
 				audioHolderSource.clip = null;
 				sceneLoaded = false;
 				SubtitleObject.text = null;
 				StartCoroutine (KillScene ());
-
 			}
 		}
 	}
@@ -160,7 +162,8 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	}
 
 	public IEnumerator KillScene () {
-		AsyncOperation killScene = SceneManager.UnloadSceneAsync (sceneName);
+		//AsyncOperation killScene = SceneManager.UnloadSceneAsync (sceneName);
+		AsyncOperation killScene = SceneManager.LoadSceneAsync("LoadToScene", LoadSceneMode.Single);
 		while (!killScene.isDone) {
 			yield return null;
 		}
