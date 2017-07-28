@@ -15,8 +15,10 @@ public class HunterEnableAttachedObjects : MonoBehaviour {
 
 	public GameObject availableObjects;
 
-	void Update() {
-		Destroy(availableObjects);
+	public GameObject arrowSpawnGameObject;
+
+	void Update () {
+		Destroy (availableObjects);
 	}
 
 	public void BowEnabled () {
@@ -40,11 +42,12 @@ public class HunterEnableAttachedObjects : MonoBehaviour {
 	}
 
 	public void RightHandArrowDisabled () {
-		rightHandArrow.SetActive(false);
+		rightHandArrow.SetActive (false);
 	}
 
 	public void failedArrowEnabled () {
-		failedArrow.SetActive(true);
+		//failedArrow.SetActive(true);
+		Instantiate (failedArrow, arrowSpawnGameObject.transform.position, arrowSpawnGameObject.transform.rotation);
 	}
 
 }

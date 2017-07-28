@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class FailedArrow : MonoBehaviour {
 
-	public Transform[] waypoint;
+	private GameObject failedArrowFallPoints;
+	private Transform[] waypoint;
 	private Transform currentWaypointGoal;
 	private Vector3 currentPosition;
 	private Vector3 destinationToFlyTo;
 
-	private int waypointCounter = 0;
+	private int waypointCounter = 1;
 
 	private bool reachedDestination;
 
@@ -17,8 +18,11 @@ public class FailedArrow : MonoBehaviour {
 	private float trueSpeed;
 
 
-	
-	// Update is called once per frame
+	void Start () {
+		failedArrowFallPoints = GameObject.Find ("FailedArrowFallPoints");
+		waypoint = failedArrowFallPoints.GetComponentsInChildren<Transform> ();
+	}
+
 	void Update () {
 		trueSpeed = speed * Time.deltaTime;
 		currentPosition = transform.position;
@@ -31,10 +35,10 @@ public class FailedArrow : MonoBehaviour {
 		Flying (destinationToFlyTo, currentWaypointGoal); 
 
 		if (distanceToTarget > 0.5f) {
-					reachedDestination = false;
-				} else {
-					reachedDestination = true; 
-				}
+			reachedDestination = false;
+		} else {
+			reachedDestination = true; 
+		}
 
 
 		if (reachedDestination && waypointCounter < (waypoint.Length - 1)) {
@@ -43,9 +47,10 @@ public class FailedArrow : MonoBehaviour {
 		} 
 
 		if (reachedDestination && waypointCounter == (waypoint.Length - 1)) {
-			gameObject.SetActive(false);
+			Destroy (gameObject);
 		}
 
+		Debug.Log ("Failed arrow moving towards: " + currentWaypointGoal);
 	}
 
 
@@ -60,6 +65,7 @@ public class FailedArrow : MonoBehaviour {
 		Vector3 newDir = Vector3.RotateTowards (transform.forward, targetDir, trueSpeed, 0);
 		transform.rotation = Quaternion.LookRotation (newDir);
 		transform.position = Vector3.MoveTowards (currentPosition, waypoint, (trueSpeed)); 
+
 	}
 
 }
