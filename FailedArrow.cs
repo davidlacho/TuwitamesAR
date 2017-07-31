@@ -49,8 +49,6 @@ public class FailedArrow : MonoBehaviour {
 		if (reachedDestination && waypointCounter == (waypoint.Length - 1)) {
 			Destroy (gameObject);
 		}
-
-		Debug.Log ("Failed arrow moving towards: " + currentWaypointGoal);
 	}
 
 
