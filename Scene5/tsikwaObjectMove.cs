@@ -33,14 +33,14 @@ public class tsikwaObjectMove : MonoBehaviour {
 		}
 
 		if (hitPointObject == null) {
-			Destroy(gameObject);
-			Debug.Log("hitPointObject not found, object destroyed");
+			Destroy (gameObject);
+			Debug.Log ("hitPointObject not found, object destroyed");
 		}
 
 
 		objectHitTransformGoal = hitPointObject.GetComponent<Transform> ();
-		jumpPointHeightsHolder = GameObject.Find("JumpPointHeights");
-		jumpPointHeights = jumpPointHeightsHolder.GetComponentsInChildren<Transform>();
+		jumpPointHeightsHolder = GameObject.Find ("JumpPointHeights");
+		jumpPointHeights = jumpPointHeightsHolder.GetComponentsInChildren<Transform> ();
 	}
 
 	void Update () {
@@ -55,7 +55,6 @@ public class tsikwaObjectMove : MonoBehaviour {
 		} else {
 			Destroy (gameObject);
 			foreach (Transform jumpPointHeight in jumpPointHeights) {
-				Debug.Log ("jumpPointHeightTransform.position: " + jumpPointHeight.position);
 				jumpPointHeight.position = new Vector3 (jumpPointHeight.position.x, (jumpPointHeight.position.y - reduceJumpPointHeightByThisAmount), jumpPointHeight.position.z);
 			}
 		}
