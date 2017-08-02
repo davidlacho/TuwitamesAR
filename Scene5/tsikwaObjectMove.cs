@@ -3,61 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class tsikwaObjectMove : MonoBehaviour {
-	private GameObject tsikwasObject;
-	public GameObject hitPointObject;
-	private Transform objectHitTransformGoal;
+	//private GameObject tsikwasObject;
+
 	private Vector3 currentPosition;
 	private Vector3 destinationToFlyTo;
 	private bool reachedDestination;
-	private float distanceToTarget;
-	public float speed;
+	public float distanceToTarget;
+	private float speed = 15;
 	private float trueSpeed;
-	public GameObject jumpPointHeightsHolder;
-	public Transform[] jumpPointHeights;
-	public float reduceJumpPointHeightByThisAmount;
+
+	public GameObject deer1;
+	public GameObject deer2;
 
 	public bool isApron;
 	public bool isShawl;
 	public bool isPaintBag;
 
 	void Start () {
-
-		if (isApron) {
-			hitPointObject = GameObject.Find ("ApronFallPoint");
-		}
-		if (isShawl) {
-			hitPointObject = GameObject.Find ("ShawlFallPoint");
-		}
-		if (isPaintBag) {
-			hitPointObject = GameObject.Find ("PaintBagFallPoint");
-		}
-
-		if (hitPointObject == null) {
-			Destroy (gameObject);
-			Debug.Log ("hitPointObject not found, object destroyed");
-		}
-
-
-		objectHitTransformGoal = hitPointObject.GetComponent<Transform> ();
-		jumpPointHeightsHolder = GameObject.Find ("JumpPointHeights");
-		jumpPointHeights = jumpPointHeightsHolder.GetComponentsInChildren<Transform> ();
+		
+		deer1 = GameObject.Find("Deer1");
+		deer2 = GameObject.Find("Deer2");
 	}
 
 	void Update () {
 		trueSpeed = speed * Time.deltaTime;
 		currentPosition = gameObject.transform.position;
-		destinationToFlyTo = objectHitTransformGoal.position;
-		distanceToTarget = calculateDistanceToTarget (objectHitTransformGoal);
-		Flying (destinationToFlyTo, objectHitTransformGoal);
+		destinationToFlyTo = deer1.transform.position;
+		distanceToTarget = calculateDistanceToTarget (deer1.transform);
+		ObjectFlying (destinationToFlyTo, deer1.transform);
 
 		if (distanceToTarget > 0.5f) {
 			reachedDestination = false;
 		} else {
 			Destroy (gameObject);
-			foreach (Transform jumpPointHeight in jumpPointHeights) {
-				jumpPointHeight.position = new Vector3 (jumpPointHeight.position.x, (jumpPointHeight.position.y - reduceJumpPointHeightByThisAmount), jumpPointHeight.position.z);
+			if (isApron) {
+					deer1.GetComponent<Animator>().SetTrigger("JumpHalf");
+					deer2.GetComponent<Animator>().SetTrigger("JumpHalf");
+				}
 			}
-		}
+			if (isShawl) {
+				deer1.GetComponent<Animator>().SetTrigger("JumpQuarter");
+				deer2.GetComponent<Animator>().SetTrigger("JumpQuarter");
+			}
+			if (isPaintBag) {
+				deer1.GetComponent<Animator>().SetTrigger("JumpRegular");
+				deer2.GetComponent<Animator>().SetTrigger("JumpRegular");
+			}
 	}
 
 	private float calculateDistanceToTarget (Transform destination) {
@@ -65,7 +56,7 @@ public class tsikwaObjectMove : MonoBehaviour {
 		return distanceToTarget;
 	}
 
-	private void Flying (Vector3 waypoint, Transform currentWaypointGoal) {
+	private void ObjectFlying (Vector3 waypoint, Transform currentWaypointGoal) {
 		Vector3 targetDir = currentWaypointGoal.position - transform.position;
 		Vector3 newDir = Vector3.RotateTowards (transform.forward, targetDir, trueSpeed, 0);
 		transform.rotation = Quaternion.LookRotation (newDir);
