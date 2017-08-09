@@ -10,11 +10,11 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	private TrackableBehaviour mTrackableBehaviour;
 	public string sceneName;
-	public bool sceneLoaded;
-	public string currentTargetName = null;
+	private bool sceneLoaded;
+	private string currentTargetName = null;
 	private AudioSource audioHolderSource;
 	private Text LoadingText;
-	public GameObject targetManager;
+	private GameObject targetManager;
 
 	//Target Manager:
 	private bool anotherTargetAlreadyLoaded;
@@ -86,8 +86,6 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		} else if (AudioClipSubtitleENG != null && sceneLoaded) {
 			SubtitleObject.text = AudioClipSubtitleENG;
 		}
-
-		Debug.Log ("Scene Loaded of Gameobject: " + gameObject.name + " : " + sceneLoaded);
 	}
 
 
