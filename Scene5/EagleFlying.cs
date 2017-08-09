@@ -32,12 +32,14 @@ public class EagleFlying : MonoBehaviour {
 
 	public bool landingEagle = false;
 	public bool takeoffEagle = false;
+	private bool takeoffAnimationTriggered = false;
 
 	void Start () {
 		animator = gameObject.GetComponent<Animator> ();
 	}
 
 	void Update () {
+		
 		trueSpeed = speed * Time.deltaTime;
 		currentPosition = transform.position;
 
@@ -46,7 +48,6 @@ public class EagleFlying : MonoBehaviour {
 
 			Vector3 destinationToFlyTo = currentWaypointGoal.position; 
 			float distanceToTarget = calculateDistanceToTarget (currentWaypointGoal);
-
 			if (distanceToTarget > 0 && !isFlyingToLand) {
 				isFlyingToLand = true; 
 			}
@@ -63,6 +64,7 @@ public class EagleFlying : MonoBehaviour {
 			if (reachedLandDestination && landingWaypointCounter < (LandingWaypoints.Length - 1)) {
 				landingWaypointCounter++;
 				reachedLandDestination = false; 
+
 			} 
 
 			if (reachedLandDestination && landingWaypointCounter == (LandingWaypoints.Length - 1)) {
@@ -71,6 +73,9 @@ public class EagleFlying : MonoBehaviour {
 					isLanded = true;
 				}
 			}
+
+
+
 		}
 
 		if (takeoffEagle) {
@@ -78,9 +83,12 @@ public class EagleFlying : MonoBehaviour {
 			Vector3 destinationToFlyTo = currentWaypointGoal.position; 
 			float distanceToTarget = calculateDistanceToTarget (currentWaypointGoal);
 
-			if (distanceToTarget > 0 && !isFlyingToTakeoff) {
+			if (distanceToTarget > 0 && !reachedLandDestination) {
 				isFlyingToTakeoff = true; 
-				animator.SetTrigger ("Takeoff");
+				if (!takeoffAnimationTriggered) {
+					animator.SetTrigger ("Takeoff");
+					takeoffAnimationTriggered = true; 
+				}
 			}
 
 			if (isFlyingToTakeoff) {
@@ -104,6 +112,7 @@ public class EagleFlying : MonoBehaviour {
 	}
 
 	private void Flying (Vector3 waypoint, Transform currentWaypointGoal) {
+		
 		Vector3 targetDir = currentWaypointGoal.position - transform.position;
 		Vector3 newDir = Vector3.RotateTowards (transform.forward, targetDir, trueSpeed, 0);
 		transform.rotation = Quaternion.LookRotation (newDir);

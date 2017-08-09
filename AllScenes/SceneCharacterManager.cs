@@ -48,6 +48,10 @@ public class SceneCharacterManager : MonoBehaviour {
 	private AudioSource quaternarySpeakerAudioSource;
 	private bool quaternarySpeakerIsSalsaChar;
 
+	public GameObject quinarySpeaker; 	private Salsa3D quinarySpeakerSALSA3D; 	private GameObject quinarySpeakerController; 	private AudioSource fetchedQuinarySpeakerAudioSource; 	private AudioSource quinarySpeakerAudioSource; 	private bool quinarySpeakerIsSalsaChar; 
+	public GameObject senarySpeaker; 	private Salsa3D senarySpeakerSALSA3D; 	private GameObject senarySpeakerController; 	private AudioSource fetchedSenarySpeakerAudioSource; 	private AudioSource senarySpeakerAudioSource; 	private bool senarySpeakerIsSalsaChar; 
+	public GameObject septenarySpeaker; 	private Salsa3D septenarySpeakerSALSA3D; 	private GameObject septenarySpeakerController; 	private AudioSource fetchedSeptenarySpeakerAudioSource; 	private AudioSource septenarySpeakerAudioSource; 	private bool septenarySpeakerIsSalsaChar; 
+	public GameObject octonarySpeaker; 	private Salsa3D octonarySpeakerSALSA3D; 	private GameObject octonarySpeakerController; 	private AudioSource fetchedOctonarySpeakerAudioSource; 	private AudioSource octonarySpeakerAudioSource; 	private bool octonarySpeakerIsSalsaChar; 
 	void Start () {
 
 
@@ -61,7 +65,7 @@ public class SceneCharacterManager : MonoBehaviour {
 					charAnimator1.SetTrigger (GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 				}
 			} else {
-				Destroy(character1);
+				Destroy (character1);
 			}
 		}
 
@@ -73,7 +77,7 @@ public class SceneCharacterManager : MonoBehaviour {
 					charAnimator2.SetTrigger (GameObject.Find ("CharacterPresent_2").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 				}
 			} else {
-				Destroy(character2);
+				Destroy (character2);
 			}
 		}
 
@@ -85,7 +89,7 @@ public class SceneCharacterManager : MonoBehaviour {
 					charAnimator3.SetTrigger (GameObject.Find ("CharacterPresent_3").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 				}
 			} else {
-				Destroy(character3);
+				Destroy (character3);
 			}
 		}
 
@@ -97,7 +101,7 @@ public class SceneCharacterManager : MonoBehaviour {
 					charAnimator4.SetTrigger (GameObject.Find ("CharacterPresent_4").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 				}
 			} else {
-				Destroy(character4);
+				Destroy (character4);
 			}
 		}
 
@@ -109,7 +113,7 @@ public class SceneCharacterManager : MonoBehaviour {
 					charAnimator5.SetTrigger (GameObject.Find ("CharacterPresent_5").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 				}
 			} else {
-				Destroy(character5);
+				Destroy (character5);
 			}
 		}
 
@@ -121,7 +125,7 @@ public class SceneCharacterManager : MonoBehaviour {
 					charAnimator6.SetTrigger (GameObject.Find ("CharacterPresent_6").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 				}
 			} else {
-				Destroy(character6);
+				Destroy (character6);
 			}
 		}
 
@@ -133,7 +137,7 @@ public class SceneCharacterManager : MonoBehaviour {
 					charAnimator7.SetTrigger (GameObject.Find ("CharacterPresent_7").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 				}
 			} else {
-				Destroy(character7);
+				Destroy (character7);
 			}
 		}
 
@@ -145,14 +149,58 @@ public class SceneCharacterManager : MonoBehaviour {
 					charAnimator8.SetTrigger (GameObject.Find ("CharacterPresent_8").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
 				}
 			} else {
-				Destroy(character8);
+				Destroy (character8);
 			}
 		}
 
-		if (character9 != null) { 			if (GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent) { 				character9.SetActive (true); 				Animator charAnimator9 = character9.GetComponent<Animator> (); 				if (charAnimator9 != null) { 					charAnimator9.SetTrigger (GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().characterAnimationTrigger); 				} 			}  else { 				Destroy(character9); 			} 		} 
-		if (character10 != null) { 			if (GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent) { 				character10.SetActive (true); 				Animator charAnimator10 = character10.GetComponent<Animator> (); 				if (charAnimator10 != null) { 					charAnimator10.SetTrigger (GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().characterAnimationTrigger); 				} 			}  else { 				Destroy(character10); 			} 		} 
-		if (character11 != null) { 			if (GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent) { 				character11.SetActive (true); 				Animator charAnimator11 = character11.GetComponent<Animator> (); 				if (charAnimator11 != null) { 					charAnimator11.SetTrigger (GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().characterAnimationTrigger); 				} 			}  else { 				Destroy(character11); 			} 		} 
-		if (character12 != null) { 			if (GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent) { 				character12.SetActive (true); 				Animator charAnimator12 = character12.GetComponent<Animator> (); 				if (charAnimator12 != null) { 					charAnimator12.SetTrigger (GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().characterAnimationTrigger); 				} 			}  else { 				Destroy(character12); 			} 		} 
+		if (character9 != null) {
+			if (GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().isCharPresent) {
+				character9.SetActive (true);
+				Animator charAnimator9 = character9.GetComponent<Animator> ();
+				if (charAnimator9 != null) {
+					charAnimator9.SetTrigger (GameObject.Find ("CharacterPresent_9").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
+				}
+			} else {
+				Destroy (character9);
+			}
+		}
+
+		if (character10 != null) {
+			if (GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().isCharPresent) {
+				character10.SetActive (true);
+				Animator charAnimator10 = character10.GetComponent<Animator> ();
+				if (charAnimator10 != null) {
+					charAnimator10.SetTrigger (GameObject.Find ("CharacterPresent_10").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
+				}
+			} else {
+				Destroy (character10);
+			}
+		}
+
+		if (character11 != null) {
+			if (GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().isCharPresent) {
+				character11.SetActive (true);
+				Animator charAnimator11 = character11.GetComponent<Animator> ();
+				if (charAnimator11 != null) {
+					charAnimator11.SetTrigger (GameObject.Find ("CharacterPresent_11").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
+				}
+			} else {
+				Destroy (character11);
+			}
+		}
+
+		if (character12 != null) {
+			if (GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().isCharPresent) {
+				character12.SetActive (true);
+				Animator charAnimator12 = character12.GetComponent<Animator> ();
+				if (charAnimator12 != null) {
+					charAnimator12.SetTrigger (GameObject.Find ("CharacterPresent_12").GetComponent<CheckCharPresent> ().characterAnimationTrigger);
+				}
+			} else {
+				Destroy (character12);
+			}
+		}
+
 		//Speaker Checks and Assigning Audio: 
 
 		if (primarySpeaker != null) {
@@ -174,6 +222,11 @@ public class SceneCharacterManager : MonoBehaviour {
 			fetchedQuaternarySpeakerAudioSource = GameObject.Find ("QuaternarySpeakerController").GetComponent<AudioSource> ();
 			quaternarySpeakerIsSalsaChar = GameObject.Find ("QuaternarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
 		}
+
+		if (quinarySpeaker != null) { 			fetchedQuinarySpeakerAudioSource = GameObject.Find ("QuinarySpeakerController").GetComponent<AudioSource> (); 			quinarySpeakerIsSalsaChar = GameObject.Find ("QuinarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar; 		}
+
+		if (senarySpeaker != null) { 			fetchedSenarySpeakerAudioSource = GameObject.Find ("SenarySpeakerController").GetComponent<AudioSource> (); 			senarySpeakerIsSalsaChar = GameObject.Find ("SenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar; 		}  		if (septenarySpeaker != null) { 			fetchedSeptenarySpeakerAudioSource = GameObject.Find ("SeptenarySpeakerController").GetComponent<AudioSource> (); 			septenarySpeakerIsSalsaChar = GameObject.Find ("SeptenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar; 		} 
+		if (octonarySpeaker != null) { 			fetchedOctonarySpeakerAudioSource = GameObject.Find ("OctonarySpeakerController").GetComponent<AudioSource> (); 			octonarySpeakerIsSalsaChar = GameObject.Find ("OctonarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar; 		}
 
 		if (fetchedPrimarySpeakerAudioSource != null && primarySpeakerIsSalsaChar) {
 			primarySpeakerSALSA3D = primarySpeaker.GetComponent<Salsa3D> ();
@@ -217,6 +270,12 @@ public class SceneCharacterManager : MonoBehaviour {
 			quaternarySpeakerAudioSource.Play ();
 		}
 
-	}
+		if (fetchedQuinarySpeakerAudioSource != null && quinarySpeakerIsSalsaChar) { 			quinarySpeakerSALSA3D = quinarySpeaker.GetComponent<Salsa3D> (); 			quinarySpeakerSALSA3D.SetAudioClip (fetchedQuinarySpeakerAudioSource.clip); 			quinarySpeakerSALSA3D.Play (); 		} else if (fetchedQuinarySpeakerAudioSource != null) { 			quinarySpeaker.GetComponent<AudioSource> ().clip = fetchedQuinarySpeakerAudioSource.clip; 			quinarySpeakerAudioSource = quinarySpeaker.GetComponent<AudioSource> (); 			quinarySpeakerAudioSource.clip = fetchedQuinarySpeakerAudioSource.clip; 			quinarySpeakerAudioSource.Play ();
+		}
 
+		if (fetchedSenarySpeakerAudioSource != null && senarySpeakerIsSalsaChar) { 			senarySpeakerSALSA3D = senarySpeaker.GetComponent<Salsa3D> (); 			senarySpeakerSALSA3D.SetAudioClip (fetchedSenarySpeakerAudioSource.clip); 			senarySpeakerSALSA3D.Play (); 		} else if (fetchedSenarySpeakerAudioSource != null) { 			senarySpeaker.GetComponent<AudioSource> ().clip = fetchedSenarySpeakerAudioSource.clip; 			senarySpeakerAudioSource = senarySpeaker.GetComponent<AudioSource> (); 			senarySpeakerAudioSource.clip = fetchedSenarySpeakerAudioSource.clip; 			senarySpeakerAudioSource.Play (); 		}
+
+		if (fetchedSeptenarySpeakerAudioSource != null && septenarySpeakerIsSalsaChar) { 			septenarySpeakerSALSA3D = septenarySpeaker.GetComponent<Salsa3D> (); 			septenarySpeakerSALSA3D.SetAudioClip (fetchedSeptenarySpeakerAudioSource.clip); 			septenarySpeakerSALSA3D.Play (); 		} else if (fetchedSeptenarySpeakerAudioSource != null) { 			septenarySpeaker.GetComponent<AudioSource> ().clip = fetchedSeptenarySpeakerAudioSource.clip; 			septenarySpeakerAudioSource = septenarySpeaker.GetComponent<AudioSource> (); 			septenarySpeakerAudioSource.clip = fetchedSeptenarySpeakerAudioSource.clip; 			septenarySpeakerAudioSource.Play (); 		} 
+		if (fetchedOctonarySpeakerAudioSource != null && octonarySpeakerIsSalsaChar) { 			octonarySpeakerSALSA3D = octonarySpeaker.GetComponent<Salsa3D> (); 			octonarySpeakerSALSA3D.SetAudioClip (fetchedOctonarySpeakerAudioSource.clip); 			octonarySpeakerSALSA3D.Play (); 		} else if (fetchedOctonarySpeakerAudioSource != null) { 			octonarySpeaker.GetComponent<AudioSource> ().clip = fetchedOctonarySpeakerAudioSource.clip; 			octonarySpeakerAudioSource = octonarySpeaker.GetComponent<AudioSource> (); 			octonarySpeakerAudioSource.clip = fetchedOctonarySpeakerAudioSource.clip; 			octonarySpeakerAudioSource.Play (); 		} 
+	}
 }
