@@ -30,6 +30,9 @@ public class SceneLoader : MonoBehaviour {
 	private float progressBarTotal = 1f;
 	private float progressBarLoaded = 0f;
 
+	//Stuff to destroy when done:
+	public GameObject[] loadingObjectsToDestroyWhenLoaded;
+
 	void Start () {
 		progressSlider.value = 0f;
 		progressBarTotal = scenesToLoad.Length + 1;
@@ -63,6 +66,10 @@ public class SceneLoader : MonoBehaviour {
 		AsyncOperation async = SceneManager.LoadSceneAsync (sceneToLoadTo, LoadSceneMode.Single);
 		while (!async.isDone) {
 			yield return null;
+		}
+
+		foreach (GameObject obj in loadingObjectsToDestroyWhenLoaded) {
+			GameObject.Destroy(obj);
 		}
 	}
 
