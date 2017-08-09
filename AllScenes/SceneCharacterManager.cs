@@ -48,10 +48,34 @@ public class SceneCharacterManager : MonoBehaviour {
 	private AudioSource quaternarySpeakerAudioSource;
 	private bool quaternarySpeakerIsSalsaChar;
 
-	public GameObject quinarySpeaker; 	private Salsa3D quinarySpeakerSALSA3D; 	private GameObject quinarySpeakerController; 	private AudioSource fetchedQuinarySpeakerAudioSource; 	private AudioSource quinarySpeakerAudioSource; 	private bool quinarySpeakerIsSalsaChar; 
-	public GameObject senarySpeaker; 	private Salsa3D senarySpeakerSALSA3D; 	private GameObject senarySpeakerController; 	private AudioSource fetchedSenarySpeakerAudioSource; 	private AudioSource senarySpeakerAudioSource; 	private bool senarySpeakerIsSalsaChar; 
-	public GameObject septenarySpeaker; 	private Salsa3D septenarySpeakerSALSA3D; 	private GameObject septenarySpeakerController; 	private AudioSource fetchedSeptenarySpeakerAudioSource; 	private AudioSource septenarySpeakerAudioSource; 	private bool septenarySpeakerIsSalsaChar; 
-	public GameObject octonarySpeaker; 	private Salsa3D octonarySpeakerSALSA3D; 	private GameObject octonarySpeakerController; 	private AudioSource fetchedOctonarySpeakerAudioSource; 	private AudioSource octonarySpeakerAudioSource; 	private bool octonarySpeakerIsSalsaChar; 
+	public GameObject quinarySpeaker;
+	private Salsa3D quinarySpeakerSALSA3D;
+	private GameObject quinarySpeakerController;
+	private AudioSource fetchedQuinarySpeakerAudioSource;
+	private AudioSource quinarySpeakerAudioSource;
+	private bool quinarySpeakerIsSalsaChar;
+
+	public GameObject senarySpeaker;
+	private Salsa3D senarySpeakerSALSA3D;
+	private GameObject senarySpeakerController;
+	private AudioSource fetchedSenarySpeakerAudioSource;
+	private AudioSource senarySpeakerAudioSource;
+	private bool senarySpeakerIsSalsaChar;
+
+	public GameObject septenarySpeaker;
+	private Salsa3D septenarySpeakerSALSA3D;
+	private GameObject septenarySpeakerController;
+	private AudioSource fetchedSeptenarySpeakerAudioSource;
+	private AudioSource septenarySpeakerAudioSource;
+	private bool septenarySpeakerIsSalsaChar;
+
+	public GameObject octonarySpeaker;
+	private Salsa3D octonarySpeakerSALSA3D;
+	private GameObject octonarySpeakerController;
+	private AudioSource fetchedOctonarySpeakerAudioSource;
+	private AudioSource octonarySpeakerAudioSource;
+	private bool octonarySpeakerIsSalsaChar;
+
 	void Start () {
 
 
@@ -223,10 +247,25 @@ public class SceneCharacterManager : MonoBehaviour {
 			quaternarySpeakerIsSalsaChar = GameObject.Find ("QuaternarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
 		}
 
-		if (quinarySpeaker != null) { 			fetchedQuinarySpeakerAudioSource = GameObject.Find ("QuinarySpeakerController").GetComponent<AudioSource> (); 			quinarySpeakerIsSalsaChar = GameObject.Find ("QuinarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar; 		}
+		if (quinarySpeaker != null) {
+			fetchedQuinarySpeakerAudioSource = GameObject.Find ("QuinarySpeakerController").GetComponent<AudioSource> ();
+			quinarySpeakerIsSalsaChar = GameObject.Find ("QuinarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
+		}
 
-		if (senarySpeaker != null) { 			fetchedSenarySpeakerAudioSource = GameObject.Find ("SenarySpeakerController").GetComponent<AudioSource> (); 			senarySpeakerIsSalsaChar = GameObject.Find ("SenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar; 		}  		if (septenarySpeaker != null) { 			fetchedSeptenarySpeakerAudioSource = GameObject.Find ("SeptenarySpeakerController").GetComponent<AudioSource> (); 			septenarySpeakerIsSalsaChar = GameObject.Find ("SeptenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar; 		} 
-		if (octonarySpeaker != null) { 			fetchedOctonarySpeakerAudioSource = GameObject.Find ("OctonarySpeakerController").GetComponent<AudioSource> (); 			octonarySpeakerIsSalsaChar = GameObject.Find ("OctonarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar; 		}
+		if (senarySpeaker != null) {
+			fetchedSenarySpeakerAudioSource = GameObject.Find ("SenarySpeakerController").GetComponent<AudioSource> ();
+			senarySpeakerIsSalsaChar = GameObject.Find ("SenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
+		}
+
+		if (septenarySpeaker != null) {
+			fetchedSeptenarySpeakerAudioSource = GameObject.Find ("SeptenarySpeakerController").GetComponent<AudioSource> ();
+			septenarySpeakerIsSalsaChar = GameObject.Find ("SeptenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
+		}
+
+		if (octonarySpeaker != null) {
+			fetchedOctonarySpeakerAudioSource = GameObject.Find ("OctonarySpeakerController").GetComponent<AudioSource> ();
+			octonarySpeakerIsSalsaChar = GameObject.Find ("OctonarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar;
+		}
 
 		if (fetchedPrimarySpeakerAudioSource != null && primarySpeakerIsSalsaChar) {
 			primarySpeakerSALSA3D = primarySpeaker.GetComponent<Salsa3D> ();
@@ -270,12 +309,49 @@ public class SceneCharacterManager : MonoBehaviour {
 			quaternarySpeakerAudioSource.Play ();
 		}
 
-		if (fetchedQuinarySpeakerAudioSource != null && quinarySpeakerIsSalsaChar) { 			quinarySpeakerSALSA3D = quinarySpeaker.GetComponent<Salsa3D> (); 			quinarySpeakerSALSA3D.SetAudioClip (fetchedQuinarySpeakerAudioSource.clip); 			quinarySpeakerSALSA3D.Play (); 		} else if (fetchedQuinarySpeakerAudioSource != null) { 			quinarySpeaker.GetComponent<AudioSource> ().clip = fetchedQuinarySpeakerAudioSource.clip; 			quinarySpeakerAudioSource = quinarySpeaker.GetComponent<AudioSource> (); 			quinarySpeakerAudioSource.clip = fetchedQuinarySpeakerAudioSource.clip; 			quinarySpeakerAudioSource.Play ();
+		if (fetchedQuinarySpeakerAudioSource != null && quinarySpeakerIsSalsaChar) {
+			quinarySpeakerSALSA3D = quinarySpeaker.GetComponent<Salsa3D> ();
+			quinarySpeakerSALSA3D.SetAudioClip (fetchedQuinarySpeakerAudioSource.clip);
+			quinarySpeakerSALSA3D.Play ();
+		} else if (fetchedQuinarySpeakerAudioSource != null) {
+			quinarySpeaker.GetComponent<AudioSource> ().clip = fetchedQuinarySpeakerAudioSource.clip;
+			quinarySpeakerAudioSource = quinarySpeaker.GetComponent<AudioSource> ();
+			quinarySpeakerAudioSource.clip = fetchedQuinarySpeakerAudioSource.clip;
+			quinarySpeakerAudioSource.Play ();
 		}
 
-		if (fetchedSenarySpeakerAudioSource != null && senarySpeakerIsSalsaChar) { 			senarySpeakerSALSA3D = senarySpeaker.GetComponent<Salsa3D> (); 			senarySpeakerSALSA3D.SetAudioClip (fetchedSenarySpeakerAudioSource.clip); 			senarySpeakerSALSA3D.Play (); 		} else if (fetchedSenarySpeakerAudioSource != null) { 			senarySpeaker.GetComponent<AudioSource> ().clip = fetchedSenarySpeakerAudioSource.clip; 			senarySpeakerAudioSource = senarySpeaker.GetComponent<AudioSource> (); 			senarySpeakerAudioSource.clip = fetchedSenarySpeakerAudioSource.clip; 			senarySpeakerAudioSource.Play (); 		}
+		if (fetchedSenarySpeakerAudioSource != null && senarySpeakerIsSalsaChar) {
+			senarySpeakerSALSA3D = senarySpeaker.GetComponent<Salsa3D> ();
+			senarySpeakerSALSA3D.SetAudioClip (fetchedSenarySpeakerAudioSource.clip);
+			senarySpeakerSALSA3D.Play ();
+		} else if (fetchedSenarySpeakerAudioSource != null) {
+			senarySpeaker.GetComponent<AudioSource> ().clip = fetchedSenarySpeakerAudioSource.clip;
+			senarySpeakerAudioSource = senarySpeaker.GetComponent<AudioSource> ();
+			senarySpeakerAudioSource.clip = fetchedSenarySpeakerAudioSource.clip;
+			senarySpeakerAudioSource.Play ();
+		}
 
-		if (fetchedSeptenarySpeakerAudioSource != null && septenarySpeakerIsSalsaChar) { 			septenarySpeakerSALSA3D = septenarySpeaker.GetComponent<Salsa3D> (); 			septenarySpeakerSALSA3D.SetAudioClip (fetchedSeptenarySpeakerAudioSource.clip); 			septenarySpeakerSALSA3D.Play (); 		} else if (fetchedSeptenarySpeakerAudioSource != null) { 			septenarySpeaker.GetComponent<AudioSource> ().clip = fetchedSeptenarySpeakerAudioSource.clip; 			septenarySpeakerAudioSource = septenarySpeaker.GetComponent<AudioSource> (); 			septenarySpeakerAudioSource.clip = fetchedSeptenarySpeakerAudioSource.clip; 			septenarySpeakerAudioSource.Play (); 		} 
-		if (fetchedOctonarySpeakerAudioSource != null && octonarySpeakerIsSalsaChar) { 			octonarySpeakerSALSA3D = octonarySpeaker.GetComponent<Salsa3D> (); 			octonarySpeakerSALSA3D.SetAudioClip (fetchedOctonarySpeakerAudioSource.clip); 			octonarySpeakerSALSA3D.Play (); 		} else if (fetchedOctonarySpeakerAudioSource != null) { 			octonarySpeaker.GetComponent<AudioSource> ().clip = fetchedOctonarySpeakerAudioSource.clip; 			octonarySpeakerAudioSource = octonarySpeaker.GetComponent<AudioSource> (); 			octonarySpeakerAudioSource.clip = fetchedOctonarySpeakerAudioSource.clip; 			octonarySpeakerAudioSource.Play (); 		} 
+		if (fetchedSeptenarySpeakerAudioSource != null && septenarySpeakerIsSalsaChar) {
+			septenarySpeakerSALSA3D = septenarySpeaker.GetComponent<Salsa3D> ();
+			septenarySpeakerSALSA3D.SetAudioClip (fetchedSeptenarySpeakerAudioSource.clip);
+			septenarySpeakerSALSA3D.Play ();
+		} else if (fetchedSeptenarySpeakerAudioSource != null) {
+			septenarySpeaker.GetComponent<AudioSource> ().clip = fetchedSeptenarySpeakerAudioSource.clip;
+			septenarySpeakerAudioSource = septenarySpeaker.GetComponent<AudioSource> ();
+			septenarySpeakerAudioSource.clip = fetchedSeptenarySpeakerAudioSource.clip;
+			septenarySpeakerAudioSource.Play ();
+		}
+
+		if (fetchedOctonarySpeakerAudioSource != null && octonarySpeakerIsSalsaChar) {
+			octonarySpeakerSALSA3D = octonarySpeaker.GetComponent<Salsa3D> ();
+			octonarySpeakerSALSA3D.SetAudioClip (fetchedOctonarySpeakerAudioSource.clip);
+			octonarySpeakerSALSA3D.Play ();
+		} else if (fetchedOctonarySpeakerAudioSource != null) {
+			octonarySpeaker.GetComponent<AudioSource> ().clip = fetchedOctonarySpeakerAudioSource.clip;
+			octonarySpeakerAudioSource = octonarySpeaker.GetComponent<AudioSource> ();
+			octonarySpeakerAudioSource.clip = fetchedOctonarySpeakerAudioSource.clip;
+			octonarySpeakerAudioSource.Play ();
+		}
+
 	}
 }
