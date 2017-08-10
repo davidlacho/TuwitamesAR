@@ -14,6 +14,8 @@ public class SceneLoader : MonoBehaviour {
 	[Header ("Scene To Load To After Initialization")]
 	[SerializeField]
 	private string sceneToLoadTo;
+
+	[Header ("Loading Texts")]
 	[SerializeField]
 	private Text loadingMessage;
 	[SerializeField]
@@ -24,30 +26,67 @@ public class SceneLoader : MonoBehaviour {
 	private float changeSillyTextTiming;
 
 
+	[Header ("For Loading Bar")]
 	//For Loading Bar:
 	[SerializeField] 
 	private Slider progressSlider;
 	private float progressBarTotal = 1f;
 	private float progressBarLoaded = 0f;
 
+	[Header ("Reset Player First Load for Onboarding (Requires Restart)")]
+	public bool resetPlayerFirstLoad = false;
+	//For Onboarding:
+	private bool playerFirstLoad;
+
+
+	[Header ("Loading Screen GameObjects to Destroy")]
 	//Stuff to destroy when done:
-	public GameObject[] loadingObjectsToDestroyWhenLoaded;
+	public GameObject[] LoadingSceneObjects;
 
 	void Start () {
 		progressSlider.value = 0f;
 		progressBarTotal = scenesToLoad.Length + 1;
+
+		if (PlayerPrefs.GetInt ("FirstLoad") == 0) {
+			playerFirstLoad = true;
+			Debug.Log("User First Load, Proceding to Onboard Screen");
+		} else {
+			playerFirstLoad = false;
+			Debug.Log("Onboarding Complete, Loading Game");
+		}
+
+	
+
 	}
 
 	void Update () {
-		if (sceneLoaded == false) {
-			sceneLoaded = true;
-			loadingMessage.text = " ...";
-			StartCoroutine (LoadScene ());
-			StartCoroutine (ChangeSillyText ());
+		if (resetPlayerFirstLoad) {
+			resetPlayerFirstLoad = false;
+			PlayerPrefs.SetInt("FirstLoad", 0);x2
 		}
-		if (sceneLoaded == true) {
-			loadingMessage.color = new Color (loadingMessage.color.r, loadingMessage.color.g, loadingMessage.color.b, Mathf.PingPong (Time.time, 1));
-			progressSlider.value = progressBarLoaded / progressBarTotal;
+
+		if (playerFirstLoad) {
+			StartCoroutine (LoadOnboardingScene());
+		} else {
+			if (sceneLoaded == false) {
+				sceneLoaded = true;
+				loadingMessage.text = " ...";
+				StartCoroutine (LoadScene ());
+				StartCoroutine (ChangeSillyText ());
+			}
+			if (sceneLoaded == true) {
+				loadingMessage.color = new Color (loadingMessage.color.r, loadingMessage.color.g, loadingMessage.color.b, Mathf.PingPong (Time.time, 1));
+				progressSlider.value = progressBarLoaded / progressBarTotal;
+			}
+
+		}
+
+	}
+
+	IEnumerator LoadOnboardingScene () {
+		AsyncOperation async = SceneManager.LoadSceneAsync ("Onboarding", LoadSceneMode.Single);
+		while (!async.isDone) {
+			yield return null;
 		}
 	}
 
@@ -68,7 +107,7 @@ public class SceneLoader : MonoBehaviour {
 			yield return null;
 		}
 
-		foreach (GameObject obj in loadingObjectsToDestroyWhenLoaded) {
+		foreach (GameObject obj in LoadingSceneObjects) {
 			GameObject.Destroy(obj);
 		}
 	}
