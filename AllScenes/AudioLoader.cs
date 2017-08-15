@@ -1,0 +1,25 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AudioLoader : MonoBehaviour {
+
+	private AudioClip audioclip;
+
+	public AudioClip DownloadAudio(string uri, string AudioName, string assetBundleName){
+		WWW www = new WWW(uri); 
+		StartCoroutine(WaitForReq(www, AudioName));
+		return audioclip;
+	}
+
+	IEnumerator WaitForReq (WWW www, string AudioName) {
+		yield return www;
+		AssetBundle bundle = www.assetBundle;
+		if (www.error == "") {
+			audioclip = (AudioClip)bundle.LoadAsset (AudioName);
+		} else {
+			Debug.Log(www.error); 
+		}
+	}
+
+}

@@ -62,7 +62,7 @@ public class SceneLoader : MonoBehaviour {
 	void Update () {
 		if (resetPlayerFirstLoad) {
 			resetPlayerFirstLoad = false;
-			PlayerPrefs.SetInt("FirstLoad", 0);x2
+			PlayerPrefs.SetInt("FirstLoad", 0);
 		}
 
 		if (playerFirstLoad) {
