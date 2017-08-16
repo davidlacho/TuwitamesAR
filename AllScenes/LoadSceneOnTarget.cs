@@ -4,11 +4,12 @@ using UnityEngine;
 using Vuforia;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using UnityEditor;
 
 public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	private TrackableBehaviour mTrackableBehaviour;
+	[Header ("On Tracking Scene to Load To")]
 	public string sceneName;
 	private bool sceneLoaded;
 	private string currentTargetName = null;
@@ -20,11 +21,10 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	private bool anotherTargetAlreadyLoaded;
 	private string sceneAlreadyLoadedInTargetManager;
 
-
-
 	[Header ("Audio & Speaker Settings")]
 	public bool isSalsaChar;
-	public AudioClip charAudioClip;
+	private AudioClip characterAudioClip;
+	private string AudioFileName;
 	public bool primarySpeaker;
 	public bool secondarySpeaker;
 	public bool tertiarySpeaker;
@@ -88,9 +88,18 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		}
 	}
 
-
-
 	void Start () {
+		//AudioFileName From GameObject to match the one online:
+		AudioFileName = "" + gameObject.name;
+		AudioFileName = AudioFileName.Replace (',', '_');
+		AudioFileName = AudioFileName.Replace ('.', '_');
+		AudioFileName = AudioFileName + "Compressed.mp3";
+
+		characterAudioClip = (AudioClip)AssetDatabase.LoadAssetAtPath (("Assets/Audio/ConvertedAudio/" + AudioFileName), typeof(AudioClip));
+		if (characterAudioClip == null) {
+			Debug.Log ("Could not find audio file for Target " + gameObject.name + ", Audiofile name should be: " + AudioFileName);
+		}
+
 		targetManager = GameObject.Find ("TargetManager");
 		sceneLoaded = false;
 	
@@ -216,7 +225,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 			StartCoroutine (LoadingLevel ()); 
 			CharacterPresentChecks ();
 			SALSAChecks ();
-			audioHolderSource.clip = charAudioClip;
+			audioHolderSource.clip = characterAudioClip;
 			sceneLoaded = true;
 			targetManager.GetComponent<TargetManager> ().targetAlreadyLoaded = true;
 			targetManager.GetComponent<TargetManager> ().sceneLoaded = sceneName;
@@ -353,7 +362,6 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		}
 	}
 
-
 	//Salsa Char Checks:
 
 	public void SALSAChecks () {
@@ -400,4 +408,5 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		GameObject.Find ("SeptenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
 		GameObject.Find ("OctonarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
 	}
+
 }
