@@ -13,7 +13,7 @@ public class SceneLoader : MonoBehaviour {
 	private string[] scenesToLoad;
 	[Header ("Scene To Load To After Initialization")]
 	[SerializeField]
-	private string sceneToLoadTo;
+	private string emptySceneToLoadTo;
 
 	[Header ("Loading Texts")]
 	[SerializeField]
@@ -32,6 +32,7 @@ public class SceneLoader : MonoBehaviour {
 	private Slider progressSlider;
 	private float progressBarTotal = 1f;
 	private float progressBarLoaded = 0f;
+	public int loadingBarAdjustment;
 
 	[Header ("Reset Player First Load for Onboarding (Requires Restart)")]
 	public bool resetPlayerFirstLoad = false;
@@ -45,7 +46,7 @@ public class SceneLoader : MonoBehaviour {
 
 	void Start () {
 		progressSlider.value = 0f;
-		progressBarTotal = scenesToLoad.Length + 1;
+		progressBarTotal = scenesToLoad.Length - loadingBarAdjustment;
 
 		if (PlayerPrefs.GetInt ("FirstLoad") == 0) {
 			playerFirstLoad = true;
@@ -54,19 +55,16 @@ public class SceneLoader : MonoBehaviour {
 			playerFirstLoad = false;
 			Debug.Log("Onboarding Complete, Loading Game");
 		}
-
-	
-
 	}
 
 	void Update () {
 		if (resetPlayerFirstLoad) {
 			resetPlayerFirstLoad = false;
-			PlayerPrefs.SetInt("FirstLoad", 0);
+			PlayerPrefs.SetInt ("FirstLoad", 0);
 		}
 
 		if (playerFirstLoad) {
-			StartCoroutine (LoadOnboardingScene());
+			StartCoroutine (LoadOnboardingScene ());
 		} else {
 			if (sceneLoaded == false) {
 				sceneLoaded = true;
@@ -78,9 +76,11 @@ public class SceneLoader : MonoBehaviour {
 				loadingMessage.color = new Color (loadingMessage.color.r, loadingMessage.color.g, loadingMessage.color.b, Mathf.PingPong (Time.time, 1));
 				progressSlider.value = progressBarLoaded / progressBarTotal;
 			}
-
 		}
 
+		if (scenesFinishedLoaded) {
+			StartCoroutine(LoadingComplete());
+		}
 	}
 
 	IEnumerator LoadOnboardingScene () {
@@ -98,15 +98,15 @@ public class SceneLoader : MonoBehaviour {
 			}
 			progressBarLoaded++;
 		}
-
-		//Load After Initialization:
-		scenesFinishedLoaded = true; 
 		progressBarLoaded++;
-		AsyncOperation async = SceneManager.LoadSceneAsync (sceneToLoadTo, LoadSceneMode.Single);
+		scenesFinishedLoaded = true; 
+	}
+
+	IEnumerator LoadingComplete () {
+		AsyncOperation async = SceneManager.LoadSceneAsync (emptySceneToLoadTo, LoadSceneMode.Single);
 		while (!async.isDone) {
 			yield return null;
 		}
-
 		foreach (GameObject obj in LoadingSceneObjects) {
 			GameObject.Destroy(obj);
 		}
@@ -117,7 +117,6 @@ public class SceneLoader : MonoBehaviour {
 			int randomNumber = Random.Range (0, (sillyTextMessages.Length));
 			sillyText.text = sillyTextMessages [randomNumber];
 			yield return new WaitForSeconds (changeSillyTextTiming);
-
 		}
 	}
 }
