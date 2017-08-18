@@ -4,7 +4,10 @@ using UnityEngine;
 using Vuforia;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
@@ -23,6 +26,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 
 	[Header ("Audio & Speaker Settings")]
 	public bool isSalsaChar;
+	[SerializeField]
 	private AudioClip characterAudioClip;
 	private string AudioFileName;
 	public bool primarySpeaker;
@@ -89,128 +93,30 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	}
 
 	void Start () {
-		//AudioFileName From GameObject to match the one online:
-		AudioFileName = "" + gameObject.name;
-		AudioFileName = AudioFileName.Replace (',', '_');
-		AudioFileName = AudioFileName.Replace ('.', '_');
-		AudioFileName = AudioFileName + "Compressed.mp3";
-
-		characterAudioClip = (AudioClip)AssetDatabase.LoadAssetAtPath (("Assets/Audio/ConvertedAudio/" + AudioFileName), typeof(AudioClip));
-		if (characterAudioClip == null) {
-			Debug.Log ("Could not find audio file for Target " + gameObject.name + ", Audiofile name should be: " + AudioFileName);
-		}
-
-		targetManager = GameObject.Find ("TargetManager");
 		sceneLoaded = false;
+
+		//Get AudioClips for the specific Target
+		GetAudioClip (); 
+
+		//Find the target manager
+		targetManager = GameObject.Find ("TargetManager");
 	
 		//For Loading Image
 		LoadingText = GameObject.Find ("loadingText").GetComponent<Text> ();
 		LoadingText.text = null;
+
 		//Finds Subtitle Object
 		SubtitleObject = GameObject.Find ("subtitleText").GetComponent<Text> ();
 
-		//Speaker Checks:
-		if (primarySpeaker) {
-			secondarySpeaker = false;
-			tertiarySpeaker = false;
-			quaternarySpeaker = false;
-			quinarySpeaker = false;
-			senarySpeaker = false;
-			septenarySpeaker = false;
-			octonarySpeaker = false;
-			primarySpeakerController = GameObject.Find ("PrimarySpeakerController");
-			audioHolderSource = primarySpeakerController.GetComponent<AudioSource> ();
-		} 
-
-		if (secondarySpeaker) {
-			primarySpeaker = false;
-			tertiarySpeaker = false;
-			quaternarySpeaker = false;
-			quinarySpeaker = false;
-			senarySpeaker = false;
-			septenarySpeaker = false;
-			octonarySpeaker = false;
-			secondarySpeakerController = GameObject.Find ("SecondarySpeakerController");
-			audioHolderSource = secondarySpeakerController.GetComponent<AudioSource> ();
-		}
-
-		if (tertiarySpeaker) {
-			primarySpeaker = false;
-			tertiarySpeaker = false;
-			quaternarySpeaker = false;
-			quinarySpeaker = false;
-			senarySpeaker = false;
-			septenarySpeaker = false;
-			octonarySpeaker = false;
-			tertiarySpeakerController = GameObject.Find ("TertiarySpeakerController");
-			audioHolderSource = tertiarySpeakerController.GetComponent<AudioSource> ();
-		}
-
-		if (quaternarySpeaker) {
-			primarySpeaker = false;
-			tertiarySpeaker = false;
-			secondarySpeaker = false;
-			quinarySpeaker = false;
-			senarySpeaker = false;
-			septenarySpeaker = false;
-			octonarySpeaker = false;
-			quaternarySpeakerController = GameObject.Find ("QuaternarySpeakerController");
-			audioHolderSource = quaternarySpeakerController.GetComponent<AudioSource> ();
-		}
-
-		if (quinarySpeaker) {
-			primarySpeaker = false;
-			tertiarySpeaker = false;
-			secondarySpeaker = false;
-			quaternarySpeaker = false;
-			senarySpeaker = false;
-			septenarySpeaker = false;
-			octonarySpeaker = false;
-			quinarySpeakerController = GameObject.Find ("QuinarySpeakerController");
-			audioHolderSource = quinarySpeakerController.GetComponent<AudioSource> ();
-		}
-
-		if (senarySpeaker) {
-			primarySpeaker = false;
-			tertiarySpeaker = false;
-			secondarySpeaker = false;
-			quaternarySpeaker = false;
-			quinarySpeaker = false;
-			septenarySpeaker = false;
-			octonarySpeaker = false;
-			senarySpeakerController = GameObject.Find ("SenarySpeakerController");
-			audioHolderSource = senarySpeakerController.GetComponent<AudioSource> ();
-		}
-
-		if (septenarySpeaker) {
-			primarySpeaker = false;
-			tertiarySpeaker = false;
-			secondarySpeaker = false;
-			quaternarySpeaker = false;
-			quinarySpeaker = false;
-			senarySpeaker = false;
-			octonarySpeaker = false;
-			septenarySpeakerController = GameObject.Find ("SeptenarySpeakerController");
-			audioHolderSource = septenarySpeakerController.GetComponent<AudioSource> ();
-		}
-
-		if (octonarySpeaker) {
-			primarySpeaker = false;
-			tertiarySpeaker = false;
-			secondarySpeaker = false;
-			quaternarySpeaker = false;
-			quinarySpeaker = false;
-			senarySpeaker = false;
-			septenarySpeaker = false;
-			octonarySpeakerController = GameObject.Find ("OctonarySpeakerController");
-			audioHolderSource = octonarySpeakerController.GetComponent<AudioSource> ();
-		}
+		//Perform Speaker Checks
+		SpeakerChecks (); 
 
 		//Vuforia Target Tracking:
 		mTrackableBehaviour = GetComponent<TrackableBehaviour> ();
 		if (mTrackableBehaviour) {
 			mTrackableBehaviour.RegisterTrackableEventHandler (this);
 		}
+
 	}
 
 	public void OnTrackableStateChanged (
@@ -243,6 +149,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 				StartCoroutine (LoadToBlankScene ());
 			}
 		}
+
 	}
 
 	public IEnumerator UnloadAlreadyLoadedScene () {
@@ -271,7 +178,6 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 	}
 
 	public void CharacterPresentChecks () {
-
 		//Character Present Checks:
 		if (char1Present) {
 			GameObject.Find ("CharacterPresent_1").GetComponent<CheckCharPresent> ().isCharPresent = true;
@@ -396,6 +302,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		if (octonarySpeaker && isSalsaChar) {
 			GameObject.Find ("OctonarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = true;
 		} 
+
 	}
 
 	public void ResetSALSAOnClose () {
@@ -407,6 +314,116 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		GameObject.Find ("SenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
 		GameObject.Find ("SeptenarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
 		GameObject.Find ("OctonarySpeakerController").GetComponent<SalsaCheck> ().isSalsaChar = false;
+	}
+
+	public void GetAudioClip () {
+		AudioFileName = "" + gameObject.name;
+		AudioFileName = AudioFileName.Replace (',', '_');
+		AudioFileName = AudioFileName.Replace ('.', '_');
+		AudioFileName = AudioFileName + "Compressed";
+
+		characterAudioClip = Resources.Load ("Audio/ConvertedAudio/" + AudioFileName) as AudioClip;
+		if (characterAudioClip == null) {
+			Debug.Log ("Could not find audio file for Target " + gameObject.name + ", Audiofile name should be: " + AudioFileName);
+		}
+	}
+
+	public void SpeakerChecks () {
+		if (primarySpeaker) {
+			secondarySpeaker = false;
+			tertiarySpeaker = false;
+			quaternarySpeaker = false;
+			quinarySpeaker = false;
+			senarySpeaker = false;
+			septenarySpeaker = false;
+			octonarySpeaker = false;
+			primarySpeakerController = GameObject.Find ("PrimarySpeakerController");
+			audioHolderSource = primarySpeakerController.GetComponent<AudioSource> ();
+		} 
+
+		if (secondarySpeaker) {
+			primarySpeaker = false;
+			tertiarySpeaker = false;
+			quaternarySpeaker = false;
+			quinarySpeaker = false;
+			senarySpeaker = false;
+			septenarySpeaker = false;
+			octonarySpeaker = false;
+			secondarySpeakerController = GameObject.Find ("SecondarySpeakerController");
+			audioHolderSource = secondarySpeakerController.GetComponent<AudioSource> ();
+		}
+
+		if (tertiarySpeaker) {
+			primarySpeaker = false;
+			tertiarySpeaker = false;
+			quaternarySpeaker = false;
+			quinarySpeaker = false;
+			senarySpeaker = false;
+			septenarySpeaker = false;
+			octonarySpeaker = false;
+			tertiarySpeakerController = GameObject.Find ("TertiarySpeakerController");
+			audioHolderSource = tertiarySpeakerController.GetComponent<AudioSource> ();
+		}
+
+		if (quaternarySpeaker) {
+			primarySpeaker = false;
+			tertiarySpeaker = false;
+			secondarySpeaker = false;
+			quinarySpeaker = false;
+			senarySpeaker = false;
+			septenarySpeaker = false;
+			octonarySpeaker = false;
+			quaternarySpeakerController = GameObject.Find ("QuaternarySpeakerController");
+			audioHolderSource = quaternarySpeakerController.GetComponent<AudioSource> ();
+		}
+
+		if (quinarySpeaker) {
+			primarySpeaker = false;
+			tertiarySpeaker = false;
+			secondarySpeaker = false;
+			quaternarySpeaker = false;
+			senarySpeaker = false;
+			septenarySpeaker = false;
+			octonarySpeaker = false;
+			quinarySpeakerController = GameObject.Find ("QuinarySpeakerController");
+			audioHolderSource = quinarySpeakerController.GetComponent<AudioSource> ();
+		}
+
+		if (senarySpeaker) {
+			primarySpeaker = false;
+			tertiarySpeaker = false;
+			secondarySpeaker = false;
+			quaternarySpeaker = false;
+			quinarySpeaker = false;
+			septenarySpeaker = false;
+			octonarySpeaker = false;
+			senarySpeakerController = GameObject.Find ("SenarySpeakerController");
+			audioHolderSource = senarySpeakerController.GetComponent<AudioSource> ();
+		}
+
+		if (septenarySpeaker) {
+			primarySpeaker = false;
+			tertiarySpeaker = false;
+			secondarySpeaker = false;
+			quaternarySpeaker = false;
+			quinarySpeaker = false;
+			senarySpeaker = false;
+			octonarySpeaker = false;
+			septenarySpeakerController = GameObject.Find ("SeptenarySpeakerController");
+			audioHolderSource = septenarySpeakerController.GetComponent<AudioSource> ();
+		}
+
+		if (octonarySpeaker) {
+			primarySpeaker = false;
+			tertiarySpeaker = false;
+			secondarySpeaker = false;
+			quaternarySpeaker = false;
+			quinarySpeaker = false;
+			senarySpeaker = false;
+			septenarySpeaker = false;
+			octonarySpeakerController = GameObject.Find ("OctonarySpeakerController");
+			audioHolderSource = octonarySpeakerController.GetComponent<AudioSource> ();
+		}
 	}
 
 }
