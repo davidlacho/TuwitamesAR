@@ -6,49 +6,54 @@ public class tsikwaObjectMove : MonoBehaviour {
 	//private GameObject tsikwasObject;
 
 	private Vector3 currentPosition;
-	private Vector3 destinationToFlyTo;
 	private bool reachedDestination;
-	public float distanceToTarget;
-	private float speed = 15;
+	public float speed = 15;
 	private float trueSpeed;
+	private float distanceToFlyToPoint;
+	private bool pathChosen = false;
 
 	public GameObject deer1;
 	public GameObject deer2;
+	public GameObject deer3; 
+	public GameObject FlyToPoint;
 
 	public bool isApron;
 	public bool isShawl;
 	public bool isPaintBag;
 
 	void Start () {
-		
-		deer1 = GameObject.Find("Deer1");
-		deer2 = GameObject.Find("Deer2");
+		deer1 = GameObject.Find ("Deer1");
+		deer2 = GameObject.Find ("Deer2");
+		deer3 = GameObject.Find ("Deer3");
+		FlyToPoint = GameObject.Find("FlyToPoint");
 	}
 
 	void Update () {
 		trueSpeed = speed * Time.deltaTime;
 		currentPosition = gameObject.transform.position;
-		destinationToFlyTo = deer1.transform.position;
-		distanceToTarget = calculateDistanceToTarget (deer1.transform);
-		ObjectFlying (destinationToFlyTo, deer1.transform);
+		ObjectFlying (FlyToPoint.transform.position, FlyToPoint.transform);
+		distanceToFlyToPoint = calculateDistanceToTarget(FlyToPoint.transform);
 
-		if (distanceToTarget > 0.5f) {
+		if (distanceToFlyToPoint > 0.5f) {
 			reachedDestination = false;
 		} else {
 			Destroy (gameObject);
 			if (isApron) {
-					deer1.GetComponent<Animator>().SetTrigger("JumpHalf");
-					deer2.GetComponent<Animator>().SetTrigger("JumpHalf");
-				}
+				deer3.GetComponent<Animator> ().SetTrigger ("JumpHalf");
+				deer1.GetComponent<Animator> ().SetTrigger ("JumpHalf");
+				deer2.GetComponent<Animator> ().SetTrigger ("JumpHalf");
 			}
-			if (isShawl) {
-				deer1.GetComponent<Animator>().SetTrigger("JumpQuarter");
-				deer2.GetComponent<Animator>().SetTrigger("JumpQuarter");
-			}
-			if (isPaintBag) {
-				deer1.GetComponent<Animator>().SetTrigger("JumpRegular");
-				deer2.GetComponent<Animator>().SetTrigger("JumpRegular");
-			}
+		}
+		if (isShawl) {
+			deer3.GetComponent<Animator> ().SetTrigger ("JumpQuarter");
+			deer1.GetComponent<Animator> ().SetTrigger ("JumpQuarter");
+			deer2.GetComponent<Animator> ().SetTrigger ("JumpQuarter");
+		}
+		if (isPaintBag) {
+			deer1.GetComponent<Animator> ().SetTrigger ("JumpRegular");
+			deer3.GetComponent<Animator> ().SetTrigger ("JumpRegular");
+			deer2.GetComponent<Animator> ().SetTrigger ("JumpRegular");
+		}
 	}
 
 	private float calculateDistanceToTarget (Transform destination) {
