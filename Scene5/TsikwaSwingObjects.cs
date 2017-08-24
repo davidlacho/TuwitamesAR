@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class TsikwaSwingObjects : MonoBehaviour {
 
-	public Transform handTranform;
-	public GameObject shawl;
-	public GameObject apron;
-	public GameObject paintBag;
+	public Transform InstantiatePoint;
+	private GameObject throwingObject; 
 
 	public void throwShawl () {
-		Instantiate (shawl, handTranform.position, handTranform.rotation);
+		Instantiate (Resources.Load("shawl"), InstantiatePoint.position, InstantiatePoint.rotation);
 	}
 
 	public void throwApron () {
-		Instantiate (apron, handTranform.position, handTranform.rotation);
+		Instantiate (Resources.Load("Apron"), InstantiatePoint.position, InstantiatePoint.rotation);
 	}
 
 	public void throwPaintBag () {
-		Instantiate (paintBag, handTranform.position, handTranform.rotation);
+		Instantiate (Resources.Load("PaintBag"), InstantiatePoint.position, InstantiatePoint.rotation);
 	}
 
 }
