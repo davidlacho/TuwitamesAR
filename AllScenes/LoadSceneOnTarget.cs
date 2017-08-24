@@ -320,7 +320,7 @@ public class LoadSceneOnTarget : MonoBehaviour, ITrackableEventHandler {
 		AudioFileName = "" + gameObject.name;
 		AudioFileName = AudioFileName.Replace (',', '_');
 		AudioFileName = AudioFileName.Replace ('.', '_');
-		AudioFileName = AudioFileName + "Compressed";
+		AudioFileName = AudioFileName + "Compressed.mp3";
 
 		characterAudioClip = Resources.Load ("Audio/ConvertedAudio/" + AudioFileName) as AudioClip;
 		if (characterAudioClip == null) {

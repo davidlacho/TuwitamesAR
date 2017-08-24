@@ -8,19 +8,21 @@ public class tsikwaObjectMove : MonoBehaviour {
 	private Vector3 currentPosition;
 	private Vector3 destinationToFlyTo;
 	private bool reachedDestination;
-	public float distanceToTarget;
-	private float speed = 15;
+	public float distanceToDeer1;
+	public float distanceToDeer2;
+	public float speed = 15;
 	private float trueSpeed;
+	private float distanceToCloserDeer;
 
 	public GameObject deer1;
 	public GameObject deer2;
+	private GameObject closerDeer;
 
 	public bool isApron;
 	public bool isShawl;
 	public bool isPaintBag;
 
 	void Start () {
-		
 		deer1 = GameObject.Find("Deer1");
 		deer2 = GameObject.Find("Deer2");
 	}
@@ -28,11 +30,23 @@ public class tsikwaObjectMove : MonoBehaviour {
 	void Update () {
 		trueSpeed = speed * Time.deltaTime;
 		currentPosition = gameObject.transform.position;
-		destinationToFlyTo = deer1.transform.position;
-		distanceToTarget = calculateDistanceToTarget (deer1.transform);
-		ObjectFlying (destinationToFlyTo, deer1.transform);
+		distanceToDeer1 = calculateDistanceToTarget (deer1.transform);
+		distanceToDeer2 = calculateDistanceToTarget (deer2.transform);
 
-		if (distanceToTarget > 0.5f) {
+		if (distanceToDeer1 > distanceToDeer2) {
+			closerDeer = deer2;
+			distanceToCloserDeer = distanceToDeer2;
+			Debug.Log("" + gameObject.name + " is flying to deer 2"); 
+		} else {
+			closerDeer = deer1;
+			distanceToCloserDeer = distanceToDeer1;
+			Debug.Log("" + gameObject.name + " is flying to deer 1"); 
+		}
+
+		destinationToFlyTo = closerDeer.transform.position;
+		ObjectFlying (destinationToFlyTo, closerDeer.transform);
+
+		if (distanceToCloserDeer > 0.5f) {
 			reachedDestination = false;
 		} else {
 			Destroy (gameObject);
